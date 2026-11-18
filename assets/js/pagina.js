@@ -185,8 +185,17 @@
       correo: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); },
       llegada: function (v) { return /^\d{4}-\d{2}-\d{2}$/.test(v) && v >= hoy; },
       noches: function (v) { return /^\d+$/.test(v) && +v >= 1 && +v <= 7; },
-      personas: function (v) { return /^\d+$/.test(v) && +v >= 1 && +v <= 4; }
+      // Orión, Aldebarán y Vega son para dos; Capella admite un niño más (tres). Si da igual o es solo
+      // una sesión, hasta tres. / Orion, Aldebaran and Vega sleep two; Capella takes a child too (three).
+      // With no preference or just a session, up to three.
+      personas: function (v) {
+        var tope = PARA_DOS[campos.habitacion.value] ? 2 : 3;
+        return /^\d+$/.test(v) && +v >= 1 && +v <= tope;
+      }
     };
+    var PARA_DOS = { 'Orion': 1, 'Aldebaran': 1, 'Vega': 1 };
+    // Número con su palabra en singular o plural. / Number with its word in singular or plural.
+    function cuantos(n, uno, varios) { return n + ' ' + (+n === 1 ? uno : varios); }
 
     // Marca o desmarca el error de un campo. / Marks or clears a field's error.
     function marcar(nombre, ok) {
@@ -198,6 +207,11 @@
     }
     Object.keys(reglas).forEach(function (n) {
       campos[n].addEventListener('blur', function () { if (campos[n].getAttribute('aria-invalid') === 'true') marcar(n, reglas[n](campos[n].value)); });
+    });
+    // Al cambiar de habitación se revisa otra vez el número de personas si ya estaba marcado.
+    // Changing the room re-checks the number of people if it was already flagged.
+    campos.habitacion.addEventListener('change', function () {
+      if (campos.personas.getAttribute('aria-invalid') === 'true') marcar('personas', reglas.personas(campos.personas.value));
     });
 
     form.addEventListener('submit', function (e) {
@@ -213,10 +227,10 @@
       var habitacion = campos.habitacion.options[campos.habitacion.selectedIndex].text;
       var fecha = fmtLarga.format(aFecha(campos.llegada.value));
       var cuerpo = 'Hola, soy ' + campos.nombre.value.trim() + '.\n\nQueremos venir la noche del ' + fecha +
-        ', ' + campos.noches.value + ' noche(s), ' + campos.personas.value + ' persona(s).\nHabitación: ' + habitacion +
+        ', ' + cuantos(campos.noches.value, 'noche', 'noches') + ', ' + cuantos(campos.personas.value, 'persona', 'personas') + '.\nHabitación: ' + habitacion +
         '\nCorreo de respuesta: ' + campos.correo.value.trim() + (campos.mensaje.value.trim() ? '\n\n' + campos.mensaje.value.trim() : '') + '\n';
       enlace.href = 'mailto:' + CORREO + '?subject=' + encodeURIComponent('Reserva para la noche del ' + fecha) + '&body=' + encodeURIComponent(cuerpo);
-      resumen.textContent = campos.personas.value + ' persona(s), ' + campos.noches.value + ' noche(s) desde el ' + fecha + ', habitación: ' + habitacion +
+      resumen.textContent = cuantos(campos.personas.value, 'persona', 'personas') + ', ' + cuantos(campos.noches.value, 'noche', 'noches') + ' desde el ' + fecha + ', habitación: ' + habitacion +
         '. Desde esta web no se envía nada: pulsa el botón para abrir tu correo con el mensaje ya escrito.';
       resultado.hidden = false;
       resultado.focus();

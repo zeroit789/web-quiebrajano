@@ -47,7 +47,7 @@ El servidor manda las mismas cabeceras de seguridad que `_headers` (menos HSTS, 
 2. O desde la terminal, con Wrangler 4.164.0: `npx wrangler@4.164.0 pages deploy . --project-name quiebrajano`.
 3. `_headers` aplica la CSP, HSTS, `nosniff`, `Referrer-Policy` y `Permissions-Policy`. `404.html` se usa sola para las rutas que no existen.
 
-Antes de subir, excluye lo que no es de la web: las capturas `captura-*.png`, `README.md`, `LICENSE`, `CREDITOS.md` y `server.js` no hacen falta en producción (no pasa nada si se suben).
+Antes de subir, excluye lo que no es de la web: las capturas `captura-*.png`, `README.md`, `LICENSE`, `NOTICE.md`, `CREDITOS.md` y `server.js` no hacen falta en producción (no pasa nada si se suben).
 
 ### Cómo adaptarla
 
@@ -60,7 +60,7 @@ Antes de subir, excluye lo que no es de la web: las capturas `captura-*.png`, `R
 
 ### Créditos y licencias
 
-- **Código**: licencia MIT (ver `LICENSE`).
+- **Código**: licencia MIT (ver `LICENSE`). Los avisos sobre lo que no cubre (imágenes, tipografía y marca) están en [`NOTICE.md`](NOTICE.md).
 - **Imágenes y vídeo**: dominio público, CC0, CC BY y CC BY-SA según cada una; lista completa en `creditos.html` y `CREDITOS.md`. Las versiones adaptadas de las CC BY-SA se comparten con la misma licencia.
 - **Tipografía**: Schibsted Grotesk, de Bakken & Bæck y Henrik Kongsvoll, con licencia SIL Open Font License 1.1 (texto en `assets/fonts/OFL.txt`).
 - **Datos**: listado de certificaciones de la Fundación Starlight (julio de 2026); método de cálculo de Paul Schlyter.
@@ -110,7 +110,7 @@ The server sends the same security headers as `_headers` (except HSTS, which mak
 2. Or from the terminal, with Wrangler 4.164.0: `npx wrangler@4.164.0 pages deploy . --project-name quiebrajano`.
 3. `_headers` applies the CSP, HSTS, `nosniff`, `Referrer-Policy` and `Permissions-Policy`. `404.html` is used automatically for missing paths.
 
-Files not needed in production: the `captura-*.png` screenshots, `README.md`, `LICENSE`, `CREDITOS.md` and `server.js` (uploading them does no harm).
+Files not needed in production: the `captura-*.png` screenshots, `README.md`, `LICENSE`, `NOTICE.md`, `CREDITOS.md` and `server.js` (uploading them does no harm).
 
 ### How to adapt it
 
@@ -123,7 +123,7 @@ Files not needed in production: the `captura-*.png` screenshots, `README.md`, `L
 
 ### Credits and licences
 
-- **Code**: MIT licence (see `LICENSE`).
+- **Code**: MIT licence (see `LICENSE`). Notices on what it does not cover (images, typeface and brand) are in [`NOTICE.md`](NOTICE.md).
 - **Images and video**: public domain, CC0, CC BY and CC BY-SA depending on each one; full list in `creditos.html` and `CREDITOS.md`. Adapted versions of CC BY-SA works are shared under the same licence.
 - **Typeface**: Schibsted Grotesk by Bakken & Bæck and Henrik Kongsvoll, under the SIL Open Font License 1.1 (text in `assets/fonts/OFL.txt`).
 - **Data**: Fundación Starlight certification list (July 2026); calculation method by Paul Schlyter.

@@ -74,9 +74,11 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
-/* Cifras tabulares solo donde se alinean números (en esta fuente, tnum también ensancha comas y puntos).
-   Tabular figures only where numbers align (in this face, tnum also widens commas and full stops). */
-.programa td:last-child, .carta-fila span:last-child, .tarjeta-horas dd, .calc-horas, .tabla-lluvias td, .dia-numero, .dia-horas { font-variant-numeric: tabular-nums; }
+/* Cifras tabulares solo donde hay cifras sueltas sin signos: en esta fuente, tnum también ensancha comas,
+   puntos, dos puntos y «%», así que no va en horas («18:02») ni en celdas con texto.
+   Tabular figures only on bare numbers: in this face, tnum also widens commas, full stops, colons and "%",
+   so it is left off times ("18:02") and cells with text. */
+.carta-fila span:last-child, .dia-numero, .dia-horas { font-variant-numeric: tabular-nums; }
 img, video, canvas, svg { display: block; max-width: 100%; }
 img, video { height: auto; }
 h1, h2, h3, p, figure, dl, dd, ul, address { margin: 0; }

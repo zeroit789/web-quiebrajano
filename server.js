@@ -78,7 +78,9 @@ const servidor = http.createServer((req, res) => {
       return responder(res, 400, 'Petición mal formada.');
     }
     if (ruta.includes('\0')) return responder(res, 400, 'Petición mal formada.');
-    const fichero = resolver(ruta);
+    // Como Cloudflare Pages, /observacion sirve observacion.html (las URL canónicas van sin .html).
+    // Like Cloudflare Pages, /observacion serves observacion.html (canonical URLs have no .html).
+    const fichero = resolver(ruta) || (!path.extname(ruta) && resolver(ruta + '.html'));
     if (!fichero) {
       // Lee la página 404 antes de mandar las cabeceras; si no se puede, 404 de texto.
       // Reads the 404 page before sending the headers; if it cannot, a plain-text 404.
