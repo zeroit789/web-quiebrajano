@@ -22,6 +22,8 @@
   // Observer used for the maths: Sierra Sur de Jaén (approx.), altitude ignored.
   var LUGAR = { lat: 37.58, lon: -3.85, zona: 'Europe/Madrid' };
   var RAD = Math.PI / 180;
+  // Refracción en el horizonte adoptada (34′), la misma del umbral del Sol. / Adopted horizon refraction (34′), as in the Sun's threshold.
+  var REFRACCION = 34 / 60;
   var MES_SINODICO = 29.530588853;
 
   function sen(g) { return Math.sin(g * RAD); }
@@ -137,6 +139,11 @@
     // Paralaje: la Luna se ve más baja desde la superficie. / Parallax: the Moon looks lower from the surface.
     var paralaje = Math.asin(1 / m.r) / RAD;
     var altLuna = altLunaGeo - paralaje * cos(altLunaGeo);
+    // Altura topocéntrica del centro a la que el borde superior toca el horizonte aparente: refracción más
+    // el semidiámetro, que cambia con la distancia (0,2725 × paralaje horizontal). La paralaje ya está en altLuna.
+    // Topocentric centre altitude at which the upper limb touches the apparent horizon: refraction plus the
+    // semidiameter, which changes with distance (0.2725 × horizontal parallax). Parallax is already in altLuna.
+    var umbralLuna = -(REFRACCION + 0.2725 * paralaje);
 
     // Elongación y fracción iluminada. / Elongation and illuminated fraction.
     var elong = Math.acos(cos(s.lon - m.lon) * cos(m.lat)) / RAD;
@@ -147,6 +154,7 @@
     return {
       altSol: altSol,
       altLuna: altLuna,
+      umbralLuna: umbralLuna,
       iluminada: iluminada,
       creciente: avance < 180,
       avance: avance,
@@ -191,7 +199,7 @@
   // e interpola cada cruce del Sol y de la Luna dentro del paso, para que los tramos empiecen y acaben en su minuto.
   // Walks the night of "YYYY-MM-DD" (local noon to next local noon) in 5-minute steps and interpolates every
   // Sun and Moon crossing inside a step, so spans start and end at their real minute.
-  var UMBRAL_PUESTA = -0.833;   // borde superior con refracción / upper limb with refraction
+  var UMBRAL_PUESTA = -0.833;   // Sol: borde superior con refracción / Sun: upper limb with refraction
   var UMBRAL_NOCHE = -18;       // fin del crepúsculo astronómico / end of astronomical twilight
   function noche(iso, lugar) {
     lugar = lugar || LUGAR;
@@ -202,7 +210,8 @@
     var muestras = [];
     for (var t = inicio; t < fin + paso; t += paso) {
       var e = estado(new Date(Math.min(t, fin)), lugar);
-      muestras.push({ t: Math.min(t, fin), sol: e.altSol, luna: e.altLuna });
+      // «luna» es la altura sobre su propio umbral: sale o se pone al cruzar 0. / "luna" is the altitude over its own threshold: it rises or sets when crossing 0.
+      muestras.push({ t: Math.min(t, fin), sol: e.altSol, luna: e.altLuna - e.umbralLuna });
       if (t >= fin) break;
     }
 
@@ -237,7 +246,7 @@
         var desde = Math.max(x.t, puesta), hasta = Math.min(y.t, salida);
         if (hasta <= desde) continue;
         var cortes = [desde, hasta];
-        [corte(x, y, 'sol', UMBRAL_NOCHE), corte(x, y, 'luna', UMBRAL_PUESTA)].forEach(function (c) {
+        [corte(x, y, 'sol', UMBRAL_NOCHE), corte(x, y, 'luna', 0)].forEach(function (c) {
           if (c !== null && c > desde && c < hasta) cortes.push(c);
         });
         cortes.sort(function (u, v) { return u - v; });
@@ -246,7 +255,7 @@
           if (t1 <= t0) continue;
           var medio = (t0 + t1) / 2;
           var sol = valor(x, y, 'sol', medio), lunaAlt = valor(x, y, 'luna', medio);
-          var tipo = sol >= UMBRAL_NOCHE ? 'crepusculo' : (lunaAlt > UMBRAL_PUESTA ? 'luna' : 'oscuro');
+          var tipo = sol >= UMBRAL_NOCHE ? 'crepusculo' : (lunaAlt > 0 ? 'luna' : 'oscuro');
           if (tipo === 'oscuro') {
             oscuroMs += t1 - t0;
             if (primeroOscuro === null) primeroOscuro = t0;

@@ -21,7 +21,8 @@ const TIPOS = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2',
   '.webm': 'video/webm', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
-  '.webmanifest': 'application/manifest+json', '.json': 'application/json', '.md': 'text/plain; charset=utf-8'
+  '.webmanifest': 'application/manifest+json', '.json': 'application/json', '.md': 'text/plain; charset=utf-8',
+  '.ico': 'image/x-icon'
 };
 
 // Lee las cabeceras del bloque «/*» de _headers. / Reads the headers of the "/*" block in _headers.
@@ -79,9 +80,14 @@ const servidor = http.createServer((req, res) => {
     if (ruta.includes('\0')) return responder(res, 400, 'Petición mal formada.');
     const fichero = resolver(ruta);
     if (!fichero) {
+      // Lee la página 404 antes de mandar las cabeceras; si no se puede, 404 de texto.
+      // Reads the 404 page before sending the headers; if it cannot, a plain-text 404.
       const pagina404 = resolver('/404.html');
+      let cuerpo404 = null;
+      try { if (pagina404) cuerpo404 = fs.readFileSync(pagina404); } catch (e) { cuerpo404 = null; }
+      if (!cuerpo404) return responder(res, 404, 'No encontrado.');
       res.writeHead(404, { ...CABECERAS, 'Content-Type': TIPOS['.html'] });
-      return res.end(pagina404 ? fs.readFileSync(pagina404) : 'No encontrado.');
+      return res.end(cuerpo404);
     }
     fs.readFile(fichero, (err, datos) => {
       if (err) return responder(res, 500, 'Error al leer el fichero.');

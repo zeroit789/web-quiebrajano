@@ -40,7 +40,19 @@
         n++;
       });
     }, { rootMargin: '0px 0px 6% 0px', threshold: 0 });
-    piezas.forEach(function (p) { observador.observe(p); });
+    // Si la página ya se pintó con contenido (el script llegó tarde), lo que está en pantalla se queda
+    // visible y no se vigila, para que no parpadee; si aún no se pintó, todo entra animado como siempre.
+    // If the page already painted content (the script arrived late), what is on screen stays visible
+    // and is not watched, so it does not flicker; if nothing was painted yet, everything animates in as usual.
+    var pintada = !performance.getEntriesByName || performance.getEntriesByName('first-contentful-paint').length > 0;
+    piezas.forEach(function (p) {
+      var caja = p.getBoundingClientRect();
+      if (pintada && caja.top < window.innerHeight && caja.bottom > 0) p.classList.add('visto');
+      else observador.observe(p);
+    });
+    // Solo ahora, con el observador puesto, el CSS puede ocultar lo que aún no ha entrado.
+    // Only now, with the observer in place, may the CSS hide what has not entered yet.
+    document.documentElement.classList.add('entradas-listas');
     // Lo que recibe el foco se muestra aunque no haya entrado aún. / Focused content shows even if not yet revealed.
     document.addEventListener('focusin', function (e) {
       var p = e.target.closest && e.target.closest('[data-revela]');
@@ -110,9 +122,31 @@
       if (e.shiftKey && i <= 0) { e.preventDefault(); focos[focos.length - 1].focus(); }
       else if (!e.shiftKey && i === focos.length - 1) { e.preventDefault(); focos[0].focus(); }
     });
-    // Un enlace del menú lo cierra; al pasar a escritorio se cierra solo. / A menu link closes it; going to desktop closes it.
+    // Un enlace del menú lo cierra. / A menu link closes it.
     menu.addEventListener('click', function (e) { if (e.target.closest('a')) poner(false, false); });
-    window.matchMedia('(min-width: 1101px)').addEventListener('change', function (m) { if (m.matches) poner(false, false); });
+    // Al cruzar el punto de corte (la misma media query que el CSS) el menú abierto se cierra, y el foco
+    // nunca se queda en algo oculto: en escritorio el botón desaparece y el foco pasa al primer enlace; en
+    // el móvil la lista se pliega y el foco pasa al botón.
+    // When crossing the breakpoint (the same media query as the CSS) an open menu closes, and focus never
+    // stays on something hidden: on desktop the button disappears and focus moves to the first link; on
+    // the phone the list folds and focus moves to the button.
+    // El navegador puede quitar el foco de lo que se oculta antes de avisar del cambio (queda en body):
+    // se recuerda el último elemento enfocado; un clic con el puntero lo olvida.
+    // The browser may drop focus from what hides before reporting the change (it lands on body): the
+    // last focused element is remembered; a pointer click forgets it.
+    var ultimoFoco = null;
+    document.addEventListener('focusin', function (e) { ultimoFoco = e.target; });
+    document.addEventListener('pointerdown', function () { ultimoFoco = null; });
+    window.matchMedia('(max-width: 1100px)').addEventListener('change', function (m) {
+      var activo = document.activeElement;
+      if (!activo || activo === document.body) activo = ultimoFoco;
+      if (!activo) return;
+      var enMenu = activo === boton || menu.contains(activo);
+      if (!m.matches && menu.classList.contains('abierto')) poner(false, false);
+      if (!enMenu || activo.getClientRects().length) return;
+      if (m.matches) boton.focus();
+      else { var primero = menu.querySelector('a'); if (primero) primero.focus(); }
+    });
   }
 
   /* ========== 4. Formulario de reserva (demostración) ==========
@@ -142,7 +176,8 @@
     if (llegada && /^\d{4}-\d{2}-\d{2}$/.test(llegada) && !isNaN(aFecha(llegada)) && llegada >= hoy) campos.llegada.value = llegada;
     var HABITACIONES = { 'Me da igual': 1, 'Orion': 1, 'Aldebaran': 1, 'Vega': 1, 'Capella': 1, 'Solo observacion': 1 };
     var pedida = parametros.get('habitacion');
-    if (pedida && Object.hasOwn(HABITACIONES, pedida)) campos.habitacion.value = pedida;
+    // hasOwnProperty.call funciona también sin Object.hasOwn. / hasOwnProperty.call also works without Object.hasOwn.
+    if (pedida && Object.prototype.hasOwnProperty.call(HABITACIONES, pedida)) campos.habitacion.value = pedida;
 
     // Comprobaciones de cada campo. / Checks for each field.
     var reglas = {
@@ -186,9 +221,13 @@
       resultado.hidden = false;
       resultado.focus();
     });
-    // El botón sale desactivado en el HTML: sin este script, no se puede enviar. / Disabled in HTML: without this script, nothing submits.
+    // El botón sale desactivado en el HTML: sin este script, no se puede enviar. Al activarlo sobra el aviso
+    // de «sin JavaScript», que se ve por defecto. / Disabled in HTML: without this script, nothing submits.
+    // Once enabled, the "no JavaScript" note, visible by default, is no longer needed.
     var enviar = form.querySelector('[type=submit]');
     if (enviar) enviar.disabled = false;
+    var aviso = document.getElementById('form-sin-js');
+    if (aviso) aviso.hidden = true;
   }
 
   /* ========== 5. La Luna ==========
@@ -327,14 +366,18 @@
       document.getElementById('heroe-fase').textContent = C.nombreFase(nh.luna.avance) + ', ' + Math.round(nh.luna.iluminada * 100) + ' % iluminada';
       document.getElementById('heroe-oscuro').textContent = nh.oscuroMin > 0
         ? 'Cielo oscuro de ' + C.hora(nh.primeroOscuro) + ' a ' + C.hora(nh.ultimoOscuro) + ' (' + duracion(nh.oscuroMin) + ')'
-        : 'La Luna está sobre el horizonte toda la noche: no hay horas de cielo oscuro.';
+        // Cero minutos solo dice que no hay noche cerrada sin Luna (en el crepúsculo puede no haber salido)
+        // Zero minutes only means no full night without the Moon (it may still be down during twilight)
+        : 'No hay cielo oscuro sin Luna esta noche.';
       if (nuevas.length) document.getElementById('heroe-nueva').textContent = 'Próxima luna nueva: noche del ' + fmtCorta.format(aFecha(nuevas[0].iso)) + ', ' + nuevas[0].horas + ' h de cielo oscuro.';
     }
 
     /* ---- Calculador «Elige tu noche» ----
        ---- "Pick your night" calculator ---- */
     var caja = document.getElementById('calculador');
-    if (!caja) return;
+    // Sin calculador, la Luna del héroe ya está dibujada: los lienzos pueden sustituir a la foto de respaldo.
+    // Without a calculator, the hero Moon is already drawn: the canvases may replace the fallback photo.
+    if (!caja) { document.documentElement.classList.add('luna-lista'); return; }
     caja.hidden = false;
     var entrada = document.getElementById('calc-fecha');
     var el = {
@@ -383,7 +426,7 @@
       el.detalle.textContent = pct + ' % iluminada' + (dias >= 1 && dias <= 28 ? ' · ' + dias + (dias === 1 ? ' día' : ' días') + ' de lunación' : '') + (evento ? ' · la Luna ' + evento : '');
       el.oscuro.textContent = n.oscuroMin > 0
         ? 'Cielo oscuro de ' + C.hora(n.primeroOscuro) + ' a ' + C.hora(n.ultimoOscuro) + ' · ' + duracion(n.oscuroMin)
-        : 'Sin cielo oscuro: la Luna alumbra toda la noche.';
+        : 'No hay cielo oscuro sin Luna esa noche.';
 
       // Barra de la noche, de la puesta a la salida del Sol. / Night bar, from sunset to sunrise.
       el.barra.innerHTML = '';
@@ -429,6 +472,9 @@
 
     prepararCalendario(noche, elegir, hoy);
     elegir(hoy);
+    // Todo dibujado y conectado: los lienzos sustituyen ya a la foto de respaldo.
+    // Everything drawn and wired: the canvases now replace the fallback photo.
+    document.documentElement.classList.add('luna-lista');
   }
 
   /* ---- Calendario lunar del mes ----

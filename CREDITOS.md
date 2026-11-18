@@ -31,7 +31,7 @@ Las imágenes para redes (`assets/og/`) son recortes de estas mismas fotos.
 
 ## Favicon
 
-`assets/favicon.svg`, `assets/favicon-32.png` y `assets/apple-touch-icon.png`: dibujo propio de la silueta de la sierra con una estrella, en bronce, el mismo signo que acompaña al nombre en la cabecera.
+`assets/favicon.svg`, `assets/favicon-32.png`, `assets/apple-touch-icon.png` y `favicon.ico`: dibujo propio de la silueta de la sierra con una estrella, en bronce, el mismo signo que acompaña al nombre en la cabecera.
 
 ## Tipografía
 

@@ -298,9 +298,13 @@ body.menu-abierto { overflow: hidden; }
 .eleccion { align-items: center; }
 .eleccion-luna { grid-column: 1 / 6; max-width: 560px; width: 100%; justify-self: center; }
 .eleccion-luna canvas, .luna-respaldo { width: 100%; height: auto; aspect-ratio: 1; }
-.js .luna-respaldo { display: none; }
-html:not(.js) .eleccion-luna canvas, html:not(.js) .esta-noche-luna { display: none; }
-html:not(.js) .esta-noche { grid-template-columns: minmax(0, 1fr); }
+/* Los lienzos de la Luna solo sustituyen a la foto de respaldo con .luna-lista, que pone pagina.js tras
+   dibujarlos: sin JS, o si fallan cielo.js o pagina.js, se ve la foto */
+/* The Moon canvases only replace the fallback photo under .luna-lista, set by pagina.js after drawing
+   them: without JS, or if cielo.js or pagina.js fail, the photo shows */
+.luna-lista .luna-respaldo { display: none; }
+html:not(.luna-lista) .eleccion-luna canvas, html:not(.luna-lista) .esta-noche-luna { display: none; }
+html:not(.luna-lista) .esta-noche { grid-template-columns: minmax(0, 1fr); }
 .eleccion-panel { grid-column: 7 / 13; display: grid; gap: 22px; align-content: center; }
 .eleccion-panel > p { max-width: 46ch; }
 
@@ -420,12 +424,14 @@ code { font: inherit; }
 
 /* ========== Movimiento: entradas escalonadas que fallan abiertas ==========
    ========== Motion: staggered entrances that fail open ========== */
-.js [data-revela] {
+/* Solo ocultan con .entradas-listas, que pone pagina.js con el observador ya puesto: si falla, todo se ve */
+/* They only hide under .entradas-listas, set by pagina.js once the observer is in place: if it fails, everything shows */
+.entradas-listas [data-revela] {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 560ms var(--facil) var(--retardo, 0ms), transform 560ms var(--facil) var(--retardo, 0ms);
 }
-.js [data-revela].visto { opacity: 1; transform: none; }
+.entradas-listas [data-revela].visto { opacity: 1; transform: none; }
 /* Botón para pausar los vídeos en bucle / Button to pause looping videos */
 figure:has(> .video-boton) { position: relative; }
 .video-boton {
@@ -445,7 +451,7 @@ figure:has(> .video-boton) { position: relative; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .js [data-revela] { opacity: 1; transform: none; transition: none; }
+  .entradas-listas [data-revela] { opacity: 1; transform: none; transition: none; }
   .calc-resultado.cambia > * { animation: none; }
   .calc-noche span { transition: none; }
 }
@@ -535,7 +541,7 @@ figure:has(> .video-boton) { position: relative; }
 .calendario-detalle { grid-column: 8 / 13; display: grid; gap: 24px; }
 .calendario-luna { width: min(240px, 60%); height: auto; aspect-ratio: 1; }
 .calendario-detalle .luna-respaldo { width: min(240px, 60%); }
-html:not(.js) .calendario-luna { display: none; }
+html:not(.luna-lista) .calendario-luna { display: none; }
 .calendario-barra { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
 .calendario-titulo { text-align: center; }
 .calendario-tabla { width: 100%; border-collapse: separate; border-spacing: 4px; table-layout: fixed; }
