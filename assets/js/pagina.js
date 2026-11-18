@@ -185,8 +185,8 @@
       correo: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); },
       llegada: function (v) { return /^\d{4}-\d{2}-\d{2}$/.test(v) && v >= hoy; },
       noches: function (v) { return /^\d+$/.test(v) && +v >= 1 && +v <= 7; },
-      // Orión, Aldebarán y Vega son para dos; Capella admite un niño más (tres). Si da igual o es solo
-      // una sesión, hasta tres. / Orion, Aldebaran and Vega sleep two; Capella takes a child too (three).
+      // Orión, Aldebarán y Vega son para dos; Capella admite una tercera persona en el sofá cama. Si da igual o es solo
+      // una sesión, hasta tres. / Orion, Aldebaran and Vega sleep two; Capella takes a third person on the sofa bed.
       // With no preference or just a session, up to three.
       personas: function (v) {
         var tope = PARA_DOS[campos.habitacion.value] ? 2 : 3;
