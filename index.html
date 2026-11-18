@@ -1,0 +1,417 @@
+<!doctype html>
+<!--
+  index.html — Cortijo Quiebrajano (web de demostración, marca ficticia). Portada: el cielo a sangre, la Luna de esta noche, el cielo por estaciones, las habitaciones, una noche aquí, el calculador, los precios y cómo llegar.
+  index.html — Cortijo Quiebrajano (demo site, fictional brand). Home: the full-bleed sky, tonight's Moon, the sky by season, the rooms, a night here, the calculator, prices and how to get there.
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cortijo Quiebrajano · Refugio de cielo oscuro en la Sierra Sur de Jaén</title>
+  <meta name="description" content="Refugio rural de astroturismo en la Sierra Sur de Jaén: cuatro habitaciones con claraboya, telescopio de 40 cm y noches guiadas. Mira la Luna de esta noche y elige la tuya.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://quiebrajano.danimefle.com/">
+  <meta name="theme-color" content="#111111">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cortijo Quiebrajano">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="Cortijo Quiebrajano · Refugio de cielo oscuro en la Sierra Sur de Jaén">
+  <meta property="og:description" content="Refugio rural de astroturismo en la Sierra Sur de Jaén: cuatro habitaciones con claraboya, telescopio de 40 cm y noches guiadas. Mira la Luna de esta noche y elige la tuya.">
+  <meta property="og:url" content="https://quiebrajano.danimefle.com/">
+  <meta property="og:image" content="https://quiebrajano.danimefle.com/assets/og/og-portada.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cortijo Quiebrajano · Refugio de cielo oscuro en la Sierra Sur de Jaén">
+  <meta name="twitter:description" content="Refugio rural de astroturismo en la Sierra Sur de Jaén: cuatro habitaciones con claraboya, telescopio de 40 cm y noches guiadas. Mira la Luna de esta noche y elige la tuya.">
+  <meta name="twitter:image" content="https://quiebrajano.danimefle.com/assets/og/og-portada.jpg">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" href="assets/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/estilo.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Cortijo Quiebrajano","url":"https://quiebrajano.danimefle.com/","inLanguage":"es","description":"Web de demostración de una marca ficticia: refugio de cielo oscuro en la Sierra Sur de Jaén."}</script>
+  <!-- Marca la página con JS antes de pintar / Flags JS before first paint -->
+  <script src="assets/js/arranque.js"></script>
+  <!-- Analítica sin cookies (Plausible) / Cookie-free analytics (Plausible) -->
+  <script defer data-domain="quiebrajano.danimefle.com" src="https://analytics.danimefle.com/js/script.js"></script>
+  <script src="assets/js/cielo.js" defer></script>
+  <script src="assets/js/pagina.js" defer></script>
+</head>
+<body class="p-index">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera cabecera--sobre">
+    <a class="marca" href="index.html">
+      <svg class="marca-signo" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#signo"></use></svg>
+      Cortijo Quiebrajano
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">Menú</button>
+    <nav class="menu" id="menu-principal" aria-label="Principal">
+      <ul>
+        <li><a href="index.html" aria-current="page">Inicio</a></li>
+        <li><a href="habitaciones.html">Habitaciones</a></li>
+        <li><a href="observacion.html">Observación</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+      <a class="boton boton--peque" href="contacto.html#formulario">Reservar</a>
+    </nav>
+  </header>
+<main id="contenido" class="pagina" tabindex="-1">
+<!-- ========== HÉROE: el cielo a sangre, el titular y la Luna de esta noche ==========
+       ========== HERO: the sky full-bleed, the headline and tonight's Moon ========== -->
+  <section class="heroe" id="inicio" aria-labelledby="titulo">
+    <img class="heroe-foto" src="assets/img/heroe-via-lactea.webp" width="2560" height="1440" fetchpriority="high" alt="El centro de la Vía Láctea sobre siluetas de árboles en una noche sin Luna">
+
+    <div class="heroe-contenido">
+      <div class="heroe-texto">
+        <h1 id="titulo">Cielo oscuro en la<br> Sierra Sur de Jaén</h1>
+        <p class="heroe-sub">Cortijo Quiebrajano es una casa de piedra con cuatro habitaciones a 1.100 metros, en la umbría de la sierra, con el pueblo más cercano escondido detrás del monte. Cenamos temprano, apagamos las luces de fuera a las diez y salimos a la era con un telescopio de 40&nbsp;cm. En luna nueva, la Vía Láctea cruza el cielo de un horizonte a otro.</p>
+        <div class="heroe-acciones">
+          <a class="boton" href="contacto.html#formulario">Reservar una noche</a>
+          <a class="enlace" href="habitaciones.html">Ver las habitaciones</a>
+        </div>
+      </div>
+
+      <!-- Panel con la Luna de esta noche, calculada / Panel with tonight's Moon, computed -->
+      <aside class="esta-noche" aria-labelledby="titulo-esta-noche">
+        <canvas id="luna-heroe" class="esta-noche-luna" width="200" height="200" role="img" aria-label="La Luna de esta noche"></canvas>
+        <div class="esta-noche-texto">
+          <h2 id="titulo-esta-noche" class="esta-noche-titulo">Esta noche en el refugio</h2>
+          <p class="esta-noche-fase" id="heroe-fase">Próxima luna nueva: noche del 8 de diciembre</p>
+          <p class="esta-noche-dato" id="heroe-oscuro">La Luna decide cuántas horas de cielo oscuro hay.</p>
+          <p class="esta-noche-dato" id="heroe-nueva"></p>
+          <a class="enlace" href="#elige">Elegir otra noche</a>
+        </div>
+      </aside>
+    </div>
+    <p class="credito-foto heroe-credito">La Vía Láctea sobre el horizonte. Foto de Maritza Lara</p>
+  </section>
+
+  <!-- ========== EL CIELO: por qué aquí y qué se ve en cada estación ==========
+       ========== THE SKY: why here and what you see each season ========== -->
+  <section class="cielo" id="cielo" aria-labelledby="titulo-cielo">
+    <div class="cielo-texto">
+      <h2 id="titulo-cielo" data-revela>El cielo de la Sierra Sur</h2>
+      <p data-revela>La comarca es Reserva y Destino Turístico Starlight desde 2014, la certificación de cielos limpios de la Fundación Starlight. En la práctica significa que, al apagar la linterna y esperar veinte minutos, empiezas a ver estrellas donde antes no había nada: la Vía Láctea con sus nubes oscuras, la galaxia de Andrómeda a simple vista y el resplandor tenue de la luz zodiacal después del ocaso.</p>
+      <p data-revela>El cortijo mira al sur, hacia la Pandera, y no tiene ningún pueblo en esa dirección. Por eso los objetos bajos de verano, como el centro de la galaxia en Sagitario, se ven aquí mejor que en casi cualquier otro sitio de Andalucía.</p>
+
+      <h3 class="cielo-sub" data-revela>Qué se ve en cada estación</h3>
+      <dl class="estaciones" data-revela>
+        <div><dt>Invierno</dt><dd>Orión y su nebulosa, las Pléyades altas, Sirio y las noches más largas: hasta once horas de oscuridad. Gemínidas a mediados de diciembre.</dd></div>
+        <div><dt>Primavera</dt><dd>El cielo de las galaxias: la de Remolino, el triplete de Leo y el cúmulo de Virgo con el Dobson.</dd></div>
+        <div><dt>Verano</dt><dd>El centro de la Vía Láctea sobre la sierra, Escorpio entero y las Perseidas la noche del 12 al 13 de agosto.</dd></div>
+        <div><dt>Otoño</dt><dd>Andrómeda en lo alto, las Pléyades saliendo por el este y noches templadas para estar en la era sin prisa.</dd></div>
+      </dl>
+    </div>
+
+    <div class="cielo-fotos">
+      <figure class="cielo-foto cielo-foto--alta" data-revela>
+        <img src="assets/img/carta-durero.webp" width="960" height="1200" loading="lazy" alt="Mapa del cielo del norte grabado en madera por Alberto Durero en 1515, con las constelaciones como figuras">
+        <figcaption>El cielo del norte según Durero, 1515</figcaption>
+      </figure>
+      <figure class="cielo-foto" data-revela>
+        <img src="assets/img/sierra-quesada.webp" width="1920" height="1280" loading="lazy" alt="Sierras de Jaén al anochecer, con capas de montes azules bajo un cielo naranja pálido">
+        <figcaption>Sierras de Jaén al anochecer, desde Collado Zamora</figcaption>
+      </figure>
+      <figure class="cielo-foto" data-revela>
+        <img src="assets/img/via-lactea-cupula.webp" width="1200" height="800" loading="lazy" alt="La Vía Láctea sobre la cúpula de un observatorio">
+        <figcaption>Una cúpula del observatorio de Cerro Tololo, Chile</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ========== HABITACIONES: cuatro, cada una con su lámina ==========
+       ========== ROOMS: four, each with its plate ========== -->
+  <section class="habitaciones" id="habitaciones" aria-labelledby="titulo-hab">
+    <div class="seccion-cabeza">
+      <h2 id="titulo-hab" data-revela>Cuatro habitaciones</h2>
+      <p data-revela>Cada una lleva el nombre de una estrella que pasa por encima del cortijo, y en cada una cuelga su lámina de Urania's Mirror, un juego de cartas del cielo de 1825. Todas tienen claraboya sobre la cama, persianas que cierran del todo para dormir de día y luz roja en el baño para levantarse sin perder la vista nocturna.</p>
+    </div>
+
+    <div class="hab-rejilla">
+      <article class="hab" data-revela>
+        <figure class="hab-foto">
+          <img src="assets/img/hab-orion.webp" width="1600" height="1000" decoding="async" alt="Lámina de Orión de Urania's Mirror, 1825: el cazador con la maza en alto y la piel del león">
+        </figure>
+        <div class="hab-texto">
+          <div class="hab-cabeza"><h3>Orión</h3><p class="hab-precio">150 € la noche</p></div>
+          <p>La más grande, con terraza propia orientada al sur, justo donde Orión cruza las noches de invierno. Tiene estufa de leña y dos tumbonas para mirar arriba sin salir de la habitación.</p>
+          <dl class="hab-datos">
+            <div><dt>Superficie</dt><dd>32 m²</dd></div>
+            <div><dt>Cama</dt><dd>180 cm</dd></div>
+            <div><dt>Mira a</dt><dd>sur, con terraza</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="hab" data-revela>
+        <figure class="hab-foto">
+          <img src="assets/img/hab-aldebaran.webp" width="1600" height="1000" decoding="async" alt="Lámina de Tauro de Urania's Mirror, 1825: el toro con Aldebarán en el ojo">
+        </figure>
+        <div class="hab-texto">
+          <div class="hab-cabeza"><h3>Aldebarán</h3><p class="hab-precio">120 € la noche</p></div>
+          <p>El ojo rojo de Tauro, a un palmo de las Pléyades, las Cabrillas de los pastores. La ventana mira al este: en otoño ves salir las Pléyades desde la cama, poco después de cenar.</p>
+          <dl class="hab-datos">
+            <div><dt>Superficie</dt><dd>24 m²</dd></div>
+            <div><dt>Camas</dt><dd>dos de 90 que se juntan</dd></div>
+            <div><dt>Mira a</dt><dd>este</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="hab" data-revela>
+        <figure class="hab-foto">
+          <img src="assets/img/hab-vega.webp" width="1600" height="1000" decoding="async" alt="Lámina de Urania's Mirror con el Cisne, la Lira, el Lagarto y la Zorra; Vega brilla en la lira dorada">
+        </figure>
+        <div class="hab-texto">
+          <div class="hab-cabeza"><h3>Vega</h3><p class="hab-precio">110 € la noche</p></div>
+          <p>La estrella más brillante del verano pasa justo encima de la casa en julio. La claraboya queda sobre la almohada y la ducha es de piedra de la sierra. Es la más pequeña y la que antes se llena.</p>
+          <dl class="hab-datos">
+            <div><dt>Superficie</dt><dd>20 m²</dd></div>
+            <div><dt>Cama</dt><dd>160 cm</dd></div>
+            <div><dt>Mira a</dt><dd>cénit, claraboya</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="hab" data-revela>
+        <figure class="hab-foto">
+          <img src="assets/img/hab-capella.webp" width="1600" height="1000" decoding="async" alt="Lámina del Cochero de Urania's Mirror, 1825, con la cabra en brazos donde brilla Capella">
+        </figure>
+        <div class="hab-texto">
+          <div class="hab-cabeza"><h3>Capella</h3><p class="hab-precio">130 € la noche</p></div>
+          <p>La estrella amarilla que en invierno pasa por el cénit. Ventana al norte, la más silenciosa de la casa, con sofá cama para un niño y prismáticos colgados junto a la puerta.</p>
+          <dl class="hab-datos">
+            <div><dt>Superficie</dt><dd>26 m²</dd></div>
+            <div><dt>Cama</dt><dd>160 cm y sofá cama</dd></div>
+            <div><dt>Mira a</dt><dd>norte</dd></div>
+          </dl>
+        </div>
+      </article>
+    </div>
+    <p class="seccion-pie" data-revela><a class="enlace" href="habitaciones.html">Cada habitación en detalle, con lo que se ve desde la cama</a></p>
+  </section>
+
+  <!-- ========== UNA NOCHE AQUÍ: cómo es y el programa de luna nueva ==========
+       ========== A NIGHT HERE: what it is like and the new-moon programme ========== -->
+  <section class="noches" id="noches" aria-labelledby="titulo-noches">
+    <div class="noches-cabeza">
+      <div class="noches-intro">
+        <h2 id="titulo-noches" data-revela>Cómo es una noche aquí</h2>
+        <p data-revela>Llegas con luz, das un paseo hasta el collado y cenas a las siete y media. A las nueve apagamos todo lo de fuera y salimos a la era con mantas: primero veinte minutos sin linterna, para que los ojos se abran, y luego un recorrido por las constelaciones con puntero.</p>
+        <p data-revela>Después viene el Dobson de 40&nbsp;cm: galaxias, nebulosas, cúmulos y, si está arriba, Saturno con sus anillos. A medianoche quien quiere se va a dormir y quien no se queda con el telescopio, chocolate caliente y el cielo para él. Fuera hace frío casi todo el año, así que te dejamos abrigo de sobra.</p>
+      </div>
+      <figure class="noches-video" data-revela>
+        <video autoplay muted loop playsinline preload="metadata" poster="assets/video/orion-resplandor-poster.webp" width="732" height="366" aria-hidden="true">
+          <source src="assets/video/orion-resplandor.webm" type="video/webm">
+        </video>
+        <figcaption>Orión poniéndose cerca de una ciudad francesa: ese naranja es luz de farolas. En la Sierra Sur el horizonte se queda negro.</figcaption>
+      </figure>
+    </div>
+
+    <p class="seccion-pie seccion-pie--arriba" data-revela><a class="enlace" href="observacion.html">El telescopio, las sesiones y el calendario lunar del año</a></p>
+    <h3 class="programa-titulo" data-revela>Programa de un fin de semana de luna nueva</h3>
+    <table class="programa">
+      <caption class="oculto">Programa de un fin de semana de luna nueva, horario de invierno</caption>
+      <thead class="oculto">
+        <tr><th scope="col">Actividad</th><th scope="col">Formato</th><th scope="col">Lugar</th><th scope="col">Hora</th></tr>
+      </thead>
+      <tbody>
+        <tr class="programa-dia"><th colspan="4" scope="colgroup">Viernes</th></tr>
+        <tr><td>Llegada y té en la cocina</td><td>Bienvenida</td><td>Cortijo</td><td>17:00–19:00</td></tr>
+        <tr><td>Paseo al collado</td><td>A pie, 3 km</td><td>Collado del Tejo</td><td>17:30–18:45</td></tr>
+        <tr><td>Cena de luna nueva</td><td>Cocina de la sierra</td><td>Comedor</td><td>19:30–20:45</td></tr>
+        <tr><td>Constelaciones a simple vista</td><td>Guiada</td><td>La era</td><td>21:00–22:00</td></tr>
+        <tr class="programa-pausa"><td colspan="3">Chocolate y mantas</td><td>22:00–22:30</td></tr>
+        <tr><td>Galaxias y nebulosas</td><td>Dobson de 40 cm</td><td>La era</td><td>22:30–00:30</td></tr>
+      </tbody>
+      <tbody>
+        <tr class="programa-dia"><th colspan="4" scope="colgroup">Sábado</th></tr>
+        <tr><td>Desayuno largo</td><td>Pan del pueblo</td><td>Comedor</td><td>09:30–11:30</td></tr>
+        <tr><td>El Sol con filtro</td><td>Telescopio solar</td><td>La era</td><td>12:00–13:00</td></tr>
+        <tr><td>Leer una carta celeste</td><td>Charla con láminas</td><td>Biblioteca</td><td>17:00–18:00</td></tr>
+        <tr><td>Cena</td><td>Cocina de la sierra</td><td>Comedor</td><td>19:30–20:45</td></tr>
+        <tr><td>Vía Láctea y fotografía</td><td>Taller, trae cámara</td><td>La era</td><td>21:00–23:00</td></tr>
+        <tr class="programa-pausa"><td colspan="3">Cielo libre</td><td>23:00–03:00</td></tr>
+      </tbody>
+      <tbody>
+        <tr class="programa-dia"><th colspan="4" scope="colgroup">Domingo</th></tr>
+        <tr><td>Desayuno y charla del cielo</td><td>Sin prisa</td><td>Comedor</td><td>09:30–11:30</td></tr>
+        <tr><td>Salida</td><td>Hasta las doce</td><td>Cortijo</td><td>12:00</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== ELIGE TU NOCHE: la fase de la Luna calculada ==========
+       ========== PICK YOUR NIGHT: the Moon's phase, computed ========== -->
+  <section class="eleccion" id="elige" aria-labelledby="titulo-elige">
+    <div class="eleccion-luna" data-revela>
+      <canvas id="luna-lienzo" width="640" height="640" role="img" aria-label="La Luna con la fase de la noche elegida"></canvas>
+      <img class="luna-respaldo" src="assets/img/luna.webp" width="900" height="900" loading="lazy" alt="Fotografía de la Luna llena tomada con telescopio">
+    </div>
+
+    <div class="eleccion-panel">
+      <h2 id="titulo-elige" data-revela>Elige tu noche</h2>
+      <p data-revela>La Luna decide más que el tiempo: con Luna llena se ven sus cráteres y poco más; sin ella aparece todo lo demás. Pon una fecha y te decimos su fase y cuántas horas de cielo de verdad oscuro habrá sobre el refugio, calculadas para su latitud.</p>
+
+      <!-- Controles: solo con JavaScript / Controls: JavaScript only -->
+      <div class="calculador" id="calculador" hidden>
+        <div class="calc-controles">
+          <label class="calc-fecha">
+            <span>Noche del</span>
+            <input type="date" id="calc-fecha" required>
+          </label>
+          <div class="calc-pasos">
+            <button type="button" class="paso" id="calc-antes">Noche anterior</button>
+            <button type="button" class="paso" id="calc-despues">Noche siguiente</button>
+          </div>
+        </div>
+
+        <div class="calc-resultado" aria-live="polite">
+          <p class="calc-fase" id="calc-fase">Luna nueva</p>
+          <p class="calc-detalle" id="calc-detalle"></p>
+          <p class="calc-oscuro" id="calc-oscuro"></p>
+          <div class="calc-noche" id="calc-noche" aria-hidden="true"></div>
+          <div class="calc-horas" aria-hidden="true"><span id="calc-puesta"></span><span id="calc-salida"></span></div>
+          <ul class="calc-leyenda" aria-hidden="true">
+            <li><i class="l-crep"></i>Crepúsculo</li>
+            <li><i class="l-luna"></i>Luna arriba</li>
+            <li><i class="l-oscuro"></i>Cielo oscuro</li>
+          </ul>
+          <p class="calc-veredicto" id="calc-veredicto"></p>
+          <a class="enlace" id="calc-pedir" href="#contacto">Pedir esta noche</a>
+        </div>
+      </div>
+
+      <div class="lunas">
+        <h3>Próximas lunas nuevas</h3>
+        <ul class="lunas-lista" id="lunas-lista">
+          <li><span>Noche del 8 de diciembre de 2026</span></li>
+          <li><span>Noche del 7 de enero de 2027</span></li>
+          <li><span>Noche del 6 de febrero de 2027</span></li>
+          <li><span>Noche del 7 de marzo de 2027</span></li>
+          <li><span>Noche del 6 de abril de 2027</span></li>
+          <li><span>Noche del 6 de mayo de 2027</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRECIOS: como una carta ==========
+       ========== PRICES: like a menu ========== -->
+  <section class="precios" id="precios" aria-labelledby="titulo-precios">
+    <div class="precios-lado">
+      <h2 id="titulo-precios" data-revela>Lo que cuesta</h2>
+      <p data-revela>Precios con IVA. Si la noche de observación se nubla, te devolvemos la sesión o la cambiamos por otra noche, sin preguntas.</p>
+      <figure class="precios-foto" data-revela>
+        <img src="assets/img/via-lactea-valdavido.webp" width="720" height="960" loading="lazy" alt="La Vía Láctea en vertical sobre la silueta de un monte, fotografiada en Valdavido, León">
+        <figcaption>La Vía Láctea desde Valdavido, foto de Moisés Pastor</figcaption>
+      </figure>
+    </div>
+
+    <div class="carta">
+      <div class="carta-grupo" data-revela>
+        <h3>Habitaciones, por noche (€)</h3>
+        <p class="carta-nota">Dos personas, desayuno incluido. En luna nueva, mínimo dos noches.</p>
+        <ul>
+          <li><div class="carta-fila"><span>Vega</span><span>110</span></div><p>Cama de 160, claraboya sobre la almohada.</p></li>
+          <li><div class="carta-fila"><span>Aldebarán</span><span>120</span></div><p>Dos camas que se juntan, ventana al este.</p></li>
+          <li><div class="carta-fila"><span>Capella</span><span>130</span></div><p>Con sofá cama para un niño, ventana al norte.</p></li>
+          <li><div class="carta-fila"><span>Orión</span><span>150</span></div><p>Terraza propia al sur y estufa de leña.</p></li>
+        </ul>
+      </div>
+
+      <div class="carta-grupo" data-revela>
+        <h3>Noches de observación (€)</h3>
+        <p class="carta-nota">Por persona. También para quien no duerme aquí.</p>
+        <ul>
+          <li><div class="carta-fila"><span>A simple vista</span><span>18</span></div><p>Hora y media de constelaciones, con puntero.</p></li>
+          <li><div class="carta-fila"><span>Con telescopio</span><span>35</span></div><p>Dos horas en el Dobson de 40 cm.</p></li>
+          <li><div class="carta-fila"><span>Fotografía nocturna</span><span>60</span></div><p>Tres horas, cuatro personas como mucho.</p></li>
+          <li><div class="carta-fila"><span>Fin de semana de luna nueva</span><span>295</span></div><p>Dos noches de programa completo y dos cenas.</p></li>
+        </ul>
+      </div>
+
+      <div class="carta-grupo" data-revela>
+        <h3>Cocina (€)</h3>
+        <p class="carta-nota">Se avisa la víspera; lo que hay depende del huerto.</p>
+        <ul>
+          <li><div class="carta-fila"><span>Cena de luna nueva</span><span>28</span></div><p>Menú de la sierra, temprano para salir a la era.</p></li>
+          <li><div class="carta-fila"><span>Cesta para la noche</span><span>14</span></div><p>Bocadillos, fruta y un termo de caldo.</p></li>
+          <li><div class="carta-fila"><span>Chocolate y mantas</span><span>6</span></div><p>Para dos, servido en la era.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACTO: tarjeta sobre la foto de la sierra ==========
+       ========== CONTACT: card on the sierra photograph ========== -->
+  <section class="contacto" id="contacto" aria-labelledby="titulo-contacto">
+    <figure class="contacto-foto">
+      <img src="assets/img/sierra-pandera.webp" width="2560" height="1440" loading="lazy" alt="La Pandera y los Ventisqueros con nieve sobre el embalse del Quiebrajano, en la Sierra Sur de Jaén">
+      <figcaption>La Pandera y el Quiebrajano, Sierra Sur de Jaén. Foto de Veinticuatro de Jahén</figcaption>
+    </figure>
+    <div class="tarjeta">
+      <h2 id="titulo-contacto">Cómo llegar</h2>
+      <address>Camino de la Umbría, km 4<br>Sierra Sur de Jaén (Jaén)</address>
+      <p class="tarjeta-nota">A una hora de Jaén y a hora y media de Granada. Los últimos tres kilómetros son pista de tierra; si llegas de noche, entra con luces cortas, que hay gente mirando.</p>
+      <p class="tarjeta-nota">Horario de llegada</p>
+      <dl class="tarjeta-horas">
+        <div><dt>Lunes a jueves</dt><dd>17:00–20:00</dd></div>
+        <div><dt>Viernes y sábado</dt><dd>16:00–21:00</dd></div>
+        <div><dt>Domingo</dt><dd>09:00–12:00</dd></div>
+      </dl>
+      <a class="boton boton--tarjeta" id="boton-reservar" href="contacto.html#formulario">Reservar una noche</a>
+    </div>
+  </section>
+</main>
+
+<!-- ========== PIE: columnas arriba, el nombre abajo ==========
+     ========== FOOTER: columns above, wordmark below ========== -->
+<footer class="pie">
+  <div class="pie-columnas">
+    <div>
+      <p class="pie-primera">Cortijo Quiebrajano</p>
+      <p>Camino de la Umbría, km 4</p>
+      <p>Sierra Sur de Jaén</p>
+      <a href="mailto:reservas@quiebrajano.example">Escríbenos por correo</a>
+    </div>
+    <nav aria-label="Páginas">
+      <p class="pie-primera">Páginas</p>
+      <a href="index.html">Inicio</a>
+      <a href="habitaciones.html">Habitaciones</a>
+      <a href="observacion.html">Observación</a>
+      <a href="sobre-nosotros.html">Sobre nosotros</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <nav aria-label="Legal">
+      <p class="pie-primera">Legal</p>
+      <a href="aviso-legal.html">Aviso legal</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="creditos.html">Créditos</a>
+    </nav>
+    <div>
+      <p class="pie-primera">Llegadas</p>
+      <p>Lunes a jueves, 17:00–20:00</p>
+      <p>Viernes y sábado, 16:00–21:00</p>
+      <p>Domingo, 09:00–12:00</p>
+    </div>
+  </div>
+
+  <svg class="pie-marca" viewBox="0 0 1000 116" role="img" aria-label="Cortijo Quiebrajano">
+    <text x="0" y="88" textLength="1000" lengthAdjust="spacingAndGlyphs">Cortijo Quiebrajano</text>
+  </svg>
+  <p class="pie-legal">© 2026 Cortijo Quiebrajano. Marca ficticia. Web de demostración de <a href="https://danimefle.com">danimefle.com</a>. Imágenes y licencias en <a href="creditos.html">créditos</a>.</p>
+</footer>
+
+<!-- Símbolos compartidos / Shared symbols -->
+<svg width="0" height="0" class="oculto" aria-hidden="true" focusable="false">
+  <symbol id="signo" viewBox="0 0 32 32">
+    <path d="M1 27 L9.5 15 L13.5 20 L19.5 10.5 L31 27 Z"/><path d="M25 1.5 L26.3 4.7 L29.5 6 L26.3 7.3 L25 10.5 L23.7 7.3 L20.5 6 L23.7 4.7 Z"/>
+  </symbol>
+</svg>
+</body>
+</html>

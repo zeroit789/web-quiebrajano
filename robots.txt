@@ -1,0 +1,6 @@
+# robots.txt — Cortijo Quiebrajano (web de demostración). Las páginas llevan noindex; se deja rastrear para que lo vean.
+# robots.txt — Cortijo Quiebrajano (demo site). Pages carry noindex; crawling stays open so it is seen.
+User-agent: *
+Allow: /
+
+Sitemap: https://quiebrajano.danimefle.com/sitemap.xml

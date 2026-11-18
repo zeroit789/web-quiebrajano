@@ -1,0 +1,9 @@
+# .gitignore — Ficheros de trabajo que no van al repositorio.
+# .gitignore — Working files kept out of the repository.
+captura-*.png
+vista.jpg
+node_modules/
+.wrangler/
+.local/
+__pycache__/
+hoja-direccion.txt

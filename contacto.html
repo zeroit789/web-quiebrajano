@@ -1,0 +1,213 @@
+<!doctype html>
+<!--
+  contacto.html — Cortijo Quiebrajano (web de demostración, marca ficticia). Contacto: formulario de reserva (demo, abre el correo), dirección, horario y mapa dibujado.
+  contacto.html — Cortijo Quiebrajano (demo site, fictional brand). Contact: booking form (demo, opens the mail client), address, hours and drawn map.
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacto y reservas · Cortijo Quiebrajano</title>
+  <meta name="description" content="Pide tu noche en Cortijo Quiebrajano: formulario de reserva, horario de llegada, cómo llegar y mapa orientativo de la Sierra Sur de Jaén.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://quiebrajano.danimefle.com/contacto.html">
+  <meta name="theme-color" content="#111111">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cortijo Quiebrajano">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="Contacto y reservas · Cortijo Quiebrajano">
+  <meta property="og:description" content="Pide tu noche en Cortijo Quiebrajano: formulario de reserva, horario de llegada, cómo llegar y mapa orientativo de la Sierra Sur de Jaén.">
+  <meta property="og:url" content="https://quiebrajano.danimefle.com/contacto.html">
+  <meta property="og:image" content="https://quiebrajano.danimefle.com/assets/og/og-sierra.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contacto y reservas · Cortijo Quiebrajano">
+  <meta name="twitter:description" content="Pide tu noche en Cortijo Quiebrajano: formulario de reserva, horario de llegada, cómo llegar y mapa orientativo de la Sierra Sur de Jaén.">
+  <meta name="twitter:image" content="https://quiebrajano.danimefle.com/assets/og/og-sierra.jpg">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" href="assets/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/estilo.css">
+  <!-- Marca la página con JS antes de pintar / Flags JS before first paint -->
+  <script src="assets/js/arranque.js"></script>
+  <!-- Analítica sin cookies (Plausible) / Cookie-free analytics (Plausible) -->
+  <script defer data-domain="quiebrajano.danimefle.com" src="https://analytics.danimefle.com/js/script.js"></script>
+  <script src="assets/js/pagina.js" defer></script>
+</head>
+<body class="p-contacto">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="marca" href="index.html">
+      <svg class="marca-signo" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#signo"></use></svg>
+      Cortijo Quiebrajano
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">Menú</button>
+    <nav class="menu" id="menu-principal" aria-label="Principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="habitaciones.html">Habitaciones</a></li>
+        <li><a href="observacion.html">Observación</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+        <li><a href="contacto.html" aria-current="page">Contacto</a></li>
+      </ul>
+      <a class="boton boton--peque" href="contacto.html#formulario">Reservar</a>
+    </nav>
+  </header>
+<main id="contenido" class="pagina" tabindex="-1">
+<!-- ========== CABEZA DE PÁGINA ==========
+       ========== PAGE HEAD ========== -->
+  <section class="cabeza-pagina" aria-labelledby="titulo">
+    <h1 id="titulo">Pide tu noche</h1>
+    <p class="cabeza-entrada">Cuéntanos qué noche quieres, cuántos sois y en qué habitación. Te contestamos con la disponibilidad y, si la noche que pides es de Luna llena, te proponemos otra cercana con el cielo más oscuro.</p>
+  </section>
+
+  <!-- ========== FORMULARIO Y DATOS DE LLEGADA ==========
+       ========== FORM AND ARRIVAL DETAILS ========== -->
+  <section class="contacto-rejilla" aria-label="Formulario y datos de llegada">
+    <div class="formulario-caja" id="formulario">
+      <h2 data-revela>Formulario de reserva</h2>
+      <p class="aviso-demo" data-revela>Esta es una web de demostración: el formulario no envía nada. Al terminar, te preparamos el mensaje para que lo abras en tu programa de correo.</p>
+      <p class="sin-js">Sin JavaScript el formulario no funciona: escríbenos a <a class="enlace" href="mailto:reservas@quiebrajano.example">reservas@quiebrajano.example</a>.</p>
+
+      <form class="formulario" id="form-reserva" novalidate>
+        <div class="campo">
+          <label for="f-nombre">Nombre</label>
+          <input id="f-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="e-nombre">
+          <p class="campo-error" id="e-nombre" hidden>Escribe tu nombre.</p>
+        </div>
+        <div class="campo">
+          <label for="f-correo">Correo electrónico</label>
+          <input id="f-correo" name="correo" type="email" autocomplete="email" required aria-describedby="e-correo">
+          <p class="campo-error" id="e-correo" hidden>Escribe un correo con @, por ejemplo nombre@dominio.es.</p>
+        </div>
+        <div class="campo-fila">
+          <div class="campo">
+            <label for="f-llegada">Noche de llegada</label>
+            <input id="f-llegada" name="llegada" type="date" required aria-describedby="e-llegada">
+            <p class="campo-error" id="e-llegada" hidden>Elige la noche de llegada, de hoy en adelante.</p>
+          </div>
+          <div class="campo">
+            <label for="f-noches">Noches</label>
+            <input id="f-noches" name="noches" type="number" inputmode="numeric" min="1" max="7" value="2" required aria-describedby="p-noches e-noches">
+            <p class="campo-pista" id="p-noches">De 1 a 7.</p>
+            <p class="campo-error" id="e-noches" hidden>Pon un número de noches entre 1 y 7.</p>
+          </div>
+          <div class="campo">
+            <label for="f-personas">Personas</label>
+            <input id="f-personas" name="personas" type="number" inputmode="numeric" min="1" max="4" value="2" required aria-describedby="p-personas e-personas">
+            <p class="campo-pista" id="p-personas">De 1 a 4 por habitación.</p>
+            <p class="campo-error" id="e-personas" hidden>Pon entre 1 y 4 personas.</p>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="f-habitacion">Habitación</label>
+          <select id="f-habitacion" name="habitacion">
+            <option value="Me da igual">Me da igual</option>
+            <option value="Orion">Orión, 150 € la noche</option>
+            <option value="Aldebaran">Aldebarán, 120 € la noche</option>
+            <option value="Vega">Vega, 110 € la noche</option>
+            <option value="Capella">Capella, 130 € la noche</option>
+            <option value="Solo observacion">Solo una sesión de observación</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="f-mensaje">Mensaje <span class="opcional">(opcional)</span></label>
+          <textarea id="f-mensaje" name="mensaje" rows="5"></textarea>
+        </div>
+        <button class="boton" type="submit">Preparar el mensaje</button>
+      </form>
+
+      <!-- Resultado accesible / Accessible result -->
+      <div class="form-resultado" id="form-resultado" role="status" aria-live="polite" tabindex="-1" hidden>
+        <p class="form-resultado-titulo">Mensaje preparado</p>
+        <p id="form-resumen"></p>
+        <a class="boton" id="form-correo" href="mailto:reservas@quiebrajano.example">Abrir mi correo con este mensaje</a>
+      </div>
+    </div>
+
+    <aside class="llegada" aria-labelledby="t-llegada">
+      <h2 id="t-llegada" data-revela>Cómo llegar</h2>
+      <address data-revela>Cortijo Quiebrajano<br>Camino de la Umbría, km 4<br>Sierra Sur de Jaén (Jaén)</address>
+      <p data-revela>Desde Jaén, una hora por carretera de montaña; desde Granada, hora y media. Los últimos tres kilómetros son pista de tierra en buen estado, que se hace con cualquier coche. Si llegas de noche, entra con luces cortas: puede haber gente mirando.</p>
+      <p data-revela><a class="enlace" href="mailto:reservas@quiebrajano.example">reservas@quiebrajano.example</a></p>
+      <h3 data-revela>Horario de llegada</h3>
+      <dl class="tarjeta-horas" data-revela>
+        <div><dt>Lunes a jueves</dt><dd>17:00–20:00</dd></div>
+        <div><dt>Viernes y sábado</dt><dd>16:00–21:00</dd></div>
+        <div><dt>Domingo</dt><dd>09:00–12:00</dd></div>
+      </dl>
+
+      <!-- Mapa dibujado, orientativo / Drawn map, for orientation only -->
+      <figure class="mapa" data-revela>
+        <svg viewBox="0 0 480 420" role="img" aria-labelledby="mapa-titulo mapa-desc">
+          <title id="mapa-titulo">Mapa orientativo del refugio</title>
+          <desc id="mapa-desc">La carretera llega desde Jaén por el noroeste y sigue hacia Granada por el sureste. A mitad de camino sale una pista de tierra de tres kilómetros hasta Cortijo Quiebrajano. La Pandera queda al sur del refugio.</desc>
+          <rect width="480" height="420" fill="#1c1c1c"/>
+          <path d="M0 330 L70 250 L130 280 L210 220 L270 255 L330 190 L400 240 L480 200 L480 420 L0 420 Z" fill="#262626"/>
+          <path d="M150 420 L250 330 L330 270 L410 330 L480 300 L480 420 Z" fill="#303030"/>
+          <path d="M0 70 C80 90 120 120 150 160 C190 210 260 250 320 300 C370 340 420 370 480 380" fill="none" stroke="#9a9a9a" stroke-width="5" stroke-linecap="round"/>
+          <path d="M150 160 C175 150 195 135 225 128" fill="none" stroke="#a08672" stroke-width="4" stroke-linecap="round"/>
+          <path d="M330 262 L352 300 L308 300 Z" fill="#9a9a9a"/>
+          <use href="#signo" x="220" y="100" width="40" height="40" fill="#c4a690"/>
+          <text x="264" y="130" fill="#f2f2f2" font-size="18" font-family="Schibsted Grotesk, system-ui, sans-serif">Cortijo Quiebrajano</text>
+          <text x="140" y="104" fill="#c4a690" font-size="17" font-family="Schibsted Grotesk, system-ui, sans-serif">pista, 3 km</text>
+          <text x="16" y="44" fill="#f2f2f2" font-size="17" font-family="Schibsted Grotesk, system-ui, sans-serif">Jaén, 1 h</text>
+          <text x="262" y="406" fill="#f2f2f2" font-size="17" font-family="Schibsted Grotesk, system-ui, sans-serif">Granada, 1 h 30 min</text>
+          <text x="196" y="330" fill="#f2f2f2" font-size="17" font-family="Schibsted Grotesk, system-ui, sans-serif">La Pandera, 1.872 m</text>
+        </svg>
+        <figcaption>Mapa orientativo, sin escala. Te mandamos la ubicación exacta al confirmar la reserva.</figcaption>
+      </figure>
+    </aside>
+  </section>
+</main>
+
+<!-- ========== PIE: columnas arriba, el nombre abajo ==========
+     ========== FOOTER: columns above, wordmark below ========== -->
+<footer class="pie">
+  <div class="pie-columnas">
+    <div>
+      <p class="pie-primera">Cortijo Quiebrajano</p>
+      <p>Camino de la Umbría, km 4</p>
+      <p>Sierra Sur de Jaén</p>
+      <a href="mailto:reservas@quiebrajano.example">Escríbenos por correo</a>
+    </div>
+    <nav aria-label="Páginas">
+      <p class="pie-primera">Páginas</p>
+      <a href="index.html">Inicio</a>
+      <a href="habitaciones.html">Habitaciones</a>
+      <a href="observacion.html">Observación</a>
+      <a href="sobre-nosotros.html">Sobre nosotros</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <nav aria-label="Legal">
+      <p class="pie-primera">Legal</p>
+      <a href="aviso-legal.html">Aviso legal</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="creditos.html">Créditos</a>
+    </nav>
+    <div>
+      <p class="pie-primera">Llegadas</p>
+      <p>Lunes a jueves, 17:00–20:00</p>
+      <p>Viernes y sábado, 16:00–21:00</p>
+      <p>Domingo, 09:00–12:00</p>
+    </div>
+  </div>
+
+  <svg class="pie-marca" viewBox="0 0 1000 116" role="img" aria-label="Cortijo Quiebrajano">
+    <text x="0" y="88" textLength="1000" lengthAdjust="spacingAndGlyphs">Cortijo Quiebrajano</text>
+  </svg>
+  <p class="pie-legal">© 2026 Cortijo Quiebrajano. Marca ficticia. Web de demostración de <a href="https://danimefle.com">danimefle.com</a>. Imágenes y licencias en <a href="creditos.html">créditos</a>.</p>
+</footer>
+
+<!-- Símbolos compartidos / Shared symbols -->
+<svg width="0" height="0" class="oculto" aria-hidden="true" focusable="false">
+  <symbol id="signo" viewBox="0 0 32 32">
+    <path d="M1 27 L9.5 15 L13.5 20 L19.5 10.5 L31 27 Z"/><path d="M25 1.5 L26.3 4.7 L29.5 6 L26.3 7.3 L25 10.5 L23.7 7.3 L20.5 6 L23.7 4.7 Z"/>
+  </symbol>
+</svg>
+</body>
+</html>

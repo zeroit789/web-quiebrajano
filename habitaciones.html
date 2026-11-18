@@ -1,0 +1,237 @@
+<!doctype html>
+<!--
+  habitaciones.html — Cortijo Quiebrajano (web de demostración, marca ficticia). Habitaciones: cada una con su lámina, sus datos, lo que se ve desde la cama y su precio.
+  habitaciones.html — Cortijo Quiebrajano (demo site, fictional brand). Rooms: each with its plate, its details, what you see from the bed and its price.
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Habitaciones · Cortijo Quiebrajano</title>
+  <meta name="description" content="Orión, Aldebarán, Vega y Capella: las cuatro habitaciones de Cortijo Quiebrajano, con claraboya sobre la cama, luz roja y lo que se ve desde cada una.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://quiebrajano.danimefle.com/habitaciones.html">
+  <meta name="theme-color" content="#111111">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cortijo Quiebrajano">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="Habitaciones · Cortijo Quiebrajano">
+  <meta property="og:description" content="Orión, Aldebarán, Vega y Capella: las cuatro habitaciones de Cortijo Quiebrajano, con claraboya sobre la cama, luz roja y lo que se ve desde cada una.">
+  <meta property="og:url" content="https://quiebrajano.danimefle.com/habitaciones.html">
+  <meta property="og:image" content="https://quiebrajano.danimefle.com/assets/og/og-habitaciones.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Habitaciones · Cortijo Quiebrajano">
+  <meta name="twitter:description" content="Orión, Aldebarán, Vega y Capella: las cuatro habitaciones de Cortijo Quiebrajano, con claraboya sobre la cama, luz roja y lo que se ve desde cada una.">
+  <meta name="twitter:image" content="https://quiebrajano.danimefle.com/assets/og/og-habitaciones.jpg">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" href="assets/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/estilo.css">
+  <!-- Marca la página con JS antes de pintar / Flags JS before first paint -->
+  <script src="assets/js/arranque.js"></script>
+  <!-- Analítica sin cookies (Plausible) / Cookie-free analytics (Plausible) -->
+  <script defer data-domain="quiebrajano.danimefle.com" src="https://analytics.danimefle.com/js/script.js"></script>
+  <script src="assets/js/pagina.js" defer></script>
+</head>
+<body class="p-habitaciones">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="marca" href="index.html">
+      <svg class="marca-signo" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#signo"></use></svg>
+      Cortijo Quiebrajano
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">Menú</button>
+    <nav class="menu" id="menu-principal" aria-label="Principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="habitaciones.html" aria-current="page">Habitaciones</a></li>
+        <li><a href="observacion.html">Observación</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+      <a class="boton boton--peque" href="contacto.html#formulario">Reservar</a>
+    </nav>
+  </header>
+<main id="contenido" class="pagina" tabindex="-1">
+<!-- ========== CABEZA DE PÁGINA ==========
+       ========== PAGE HEAD ========== -->
+  <section class="cabeza-pagina" aria-labelledby="titulo">
+    <h1 id="titulo">Las cuatro habitaciones</h1>
+    <p class="cabeza-entrada">Cuatro cuartos en la planta alta del cortijo, cada uno con el nombre de una estrella que pasa por encima de la casa y con su lámina de Urania's Mirror, el juego de cartas del cielo que se imprimió en Londres en 1825. Las cuatro tienen claraboya sobre la cama, baño propio y luz roja de noche.</p>
+    <nav class="indice" aria-label="Habitaciones en esta página">
+      <a href="#orion">Orión</a><a href="#aldebaran">Aldebarán</a><a href="#vega">Vega</a><a href="#capella">Capella</a>
+    </nav>
+  </section>
+
+  <!-- ========== CADA HABITACIÓN: lámina entera y su ficha ==========
+       ========== EACH ROOM: the whole plate and its sheet ========== -->
+  <article class="ficha" id="orion" aria-labelledby="t-orion">
+    <figure class="ficha-lamina ficha-lamina--alta" data-revela>
+      <img src="assets/img/lamina-orion.webp" width="900" height="1294" fetchpriority="high" alt="Lámina de Orión de Urania's Mirror, 1825: el cazador con la maza en alto, la piel del león en el otro brazo y sus estrellas marcadas">
+      <figcaption>Orión en Urania's Mirror, Sidney Hall, 1825</figcaption>
+    </figure>
+    <div class="ficha-texto">
+      <h2 id="t-orion" data-revela>Orión</h2>
+      <p class="ficha-precio" data-revela>150 € la noche, dos personas con desayuno</p>
+      <p data-revela>La habitación grande del cortijo ocupa la antigua cámara del grano, con las vigas de castaño a la vista y una terraza propia que mira al sur. En invierno Orión entero cruza ese trozo de cielo entre las diez y las dos: se ve tumbado en la terraza, con manta, sin pisar la era.</p>
+      <p data-revela>Tiene estufa de leña, un sillón junto a la ventana y una mesa para dejar los mapas del cielo que prestamos en recepción.</p>
+      <h3 data-revela>Desde la cama</h3>
+      <p data-revela>Por la claraboya, en las noches de enero, Sirio y la nebulosa de Orión; en verano, la cola del Escorpión asomando por encima de la sierra.</p>
+      <dl class="ficha-datos" data-revela>
+        <div><dt>Superficie</dt><dd>32 m² y terraza de 9 m²</dd></div>
+        <div><dt>Cama</dt><dd>180 × 200 cm</dd></div>
+        <div><dt>Baño</dt><dd>ducha de obra y bañera</dd></div>
+        <div><dt>Mira a</dt><dd>sur, hacia la Pandera</dd></div>
+        <div><dt>Extra</dt><dd>estufa de leña y dos tumbonas</dd></div>
+      </dl>
+      <a class="enlace" href="contacto.html?habitacion=Orion#formulario" data-revela>Pedir Orión</a>
+    </div>
+  </article>
+
+  <article class="ficha ficha--espejo" id="aldebaran" aria-labelledby="t-aldebaran">
+    <figure class="ficha-lamina" data-revela>
+      <img src="assets/img/lamina-aldebaran.webp" width="1400" height="984" loading="lazy" alt="Lámina de Tauro de Urania's Mirror, 1825: el toro con Aldebarán en el ojo y el grupo de las Pléyades en el lomo">
+      <figcaption>Tauro, con las Cabrillas en el lomo</figcaption>
+    </figure>
+    <div class="ficha-texto">
+      <h2 id="t-aldebaran" data-revela>Aldebarán</h2>
+      <p class="ficha-precio" data-revela>120 € la noche, dos personas con desayuno</p>
+      <p data-revela>Aldebarán es el ojo rojo del toro, a un palmo de las Pléyades, a las que en el campo llaman las Cabrillas. Esta habitación tiene dos camas que se juntan o se separan según quien venga, y es la que eligen los grupos de amigos y los padres con un hijo mayor.</p>
+      <p data-revela>La ventana da al este, por donde sale todo: a finales de octubre las Pléyades asoman sobre el olivar poco después de cenar.</p>
+      <h3 data-revela>Desde la cama</h3>
+      <p data-revela>En otoño, la salida de Tauro y de Júpiter cuando está en esa parte del cielo; en verano, el amanecer, si no bajas la persiana.</p>
+      <dl class="ficha-datos" data-revela>
+        <div><dt>Superficie</dt><dd>24 m²</dd></div>
+        <div><dt>Camas</dt><dd>dos de 90 × 200 cm</dd></div>
+        <div><dt>Baño</dt><dd>ducha de obra</dd></div>
+        <div><dt>Mira a</dt><dd>este, sobre el olivar</dd></div>
+        <div><dt>Extra</dt><dd>escritorio y lámpara roja de lectura</dd></div>
+      </dl>
+      <a class="enlace" href="contacto.html?habitacion=Aldebaran#formulario" data-revela>Pedir Aldebarán</a>
+    </div>
+  </article>
+
+  <article class="ficha" id="vega" aria-labelledby="t-vega">
+    <figure class="ficha-lamina" data-revela>
+      <img src="assets/img/lamina-vega.webp" width="1400" height="982" loading="lazy" alt="Lámina de Urania's Mirror con el Cisne, la Lira, el Lagarto y la Zorra; Vega brilla en la lira dorada">
+      <figcaption>La Lira y el Cisne, Urania's Mirror, 1825</figcaption>
+    </figure>
+    <div class="ficha-texto">
+      <h2 id="t-vega" data-revela>Vega</h2>
+      <p class="ficha-precio" data-revela>110 € la noche, dos personas con desayuno</p>
+      <p data-revela>La más pequeña y la más pedida. La claraboya está justo sobre la almohada, así que esta es la habitación para quien quiere quedarse dormido mirando arriba. Vega, la estrella más brillante del verano, pasa por encima de la casa en julio.</p>
+      <p data-revela>La ducha es de piedra de la sierra y la pared del fondo conserva el encalado antiguo.</p>
+      <h3 data-revela>Desde la cama</h3>
+      <p data-revela>En verano, el triángulo de Vega, Deneb y Altair y la Vía Láctea atravesando la claraboya de lado a lado.</p>
+      <dl class="ficha-datos" data-revela>
+        <div><dt>Superficie</dt><dd>20 m²</dd></div>
+        <div><dt>Cama</dt><dd>160 × 200 cm</dd></div>
+        <div><dt>Baño</dt><dd>ducha de piedra</dd></div>
+        <div><dt>Mira a</dt><dd>el cénit, por la claraboya</dd></div>
+        <div><dt>Extra</dt><dd>prismáticos 10 × 50 en la mesilla</dd></div>
+      </dl>
+      <a class="enlace" href="contacto.html?habitacion=Vega#formulario" data-revela>Pedir Vega</a>
+    </div>
+  </article>
+
+  <article class="ficha ficha--espejo" id="capella" aria-labelledby="t-capella">
+    <figure class="ficha-lamina ficha-lamina--alta" data-revela>
+      <img src="assets/img/lamina-capella.webp" width="900" height="1286" loading="lazy" alt="Lámina del Cochero de Urania's Mirror, 1825, con la cabra en brazos donde brilla Capella">
+      <figcaption>El Cochero y su cabra, Urania's Mirror, 1825</figcaption>
+    </figure>
+    <div class="ficha-texto">
+      <h2 id="t-capella" data-revela>Capella</h2>
+      <p class="ficha-precio" data-revela>130 € la noche, dos personas con desayuno</p>
+      <p data-revela>Capella es la estrella amarilla que en invierno pasa justo por el cénit. La habitación mira al norte, al lado contrario del camino, y es la más silenciosa de la casa. Tiene sofá cama para un niño, así que es la de las familias.</p>
+      <p data-revela>Al norte no hay pueblos en muchos kilómetros: desde la ventana se ve la Osa Mayor dar la vuelta a la Polar a lo largo de la noche.</p>
+      <h3 data-revela>Desde la cama</h3>
+      <p data-revela>Casiopea y la Osa Mayor girando alrededor de la Polar; en invierno, Capella y el Cochero casi en vertical.</p>
+      <dl class="ficha-datos" data-revela>
+        <div><dt>Superficie</dt><dd>26 m²</dd></div>
+        <div><dt>Camas</dt><dd>160 × 200 cm y sofá cama</dd></div>
+        <div><dt>Baño</dt><dd>ducha de obra</dd></div>
+        <div><dt>Mira a</dt><dd>norte, hacia la Polar</dd></div>
+        <div><dt>Extra</dt><dd>cuna bajo petición</dd></div>
+      </dl>
+      <a class="enlace" href="contacto.html?habitacion=Capella#formulario" data-revela>Pedir Capella</a>
+    </div>
+  </article>
+
+  <!-- ========== LO QUE TIENEN TODAS Y LAS NORMAS DE LA NOCHE ==========
+       ========== WHAT THEY ALL HAVE AND THE NIGHT RULES ========== -->
+  <section class="dos-listas" aria-labelledby="t-todas">
+    <div>
+      <h2 id="t-todas" data-revela>Lo que tienen todas</h2>
+      <ul class="lista-puntos" data-revela>
+        <li>Claraboya sobre la cama con persiana opaca para dormir de día.</li>
+        <li>Luz roja en el baño y junto a la puerta, para moverte de noche sin deslumbrarte.</li>
+        <li>Mantas de lana, un abrigo largo por persona y una linterna roja.</li>
+        <li>Desayuno de pan del pueblo, aceite de la cooperativa y fruta del huerto.</li>
+        <li>Wifi solo en el comedor. En las habitaciones no hay televisión.</li>
+      </ul>
+    </div>
+    <div>
+      <h2 id="t-normas" data-revela>Las normas de la noche</h2>
+      <ul class="lista-puntos" data-revela>
+        <li>Desde las diez, fuera solo luz roja. El móvil con el brillo al mínimo.</li>
+        <li>El coche se aparca de cara al muro, para que los faros no barran la era al llegar.</li>
+        <li>En la era se habla bajo: hay quien está fotografiando.</li>
+        <li>Mascotas no, por los grupos de observación y por la fauna de la sierra.</li>
+        <li>Mínimo dos noches los fines de semana de luna nueva.</li>
+      </ul>
+      <a class="boton" href="contacto.html#formulario" data-revela>Pedir una noche</a>
+    </div>
+  </section>
+</main>
+
+<!-- ========== PIE: columnas arriba, el nombre abajo ==========
+     ========== FOOTER: columns above, wordmark below ========== -->
+<footer class="pie">
+  <div class="pie-columnas">
+    <div>
+      <p class="pie-primera">Cortijo Quiebrajano</p>
+      <p>Camino de la Umbría, km 4</p>
+      <p>Sierra Sur de Jaén</p>
+      <a href="mailto:reservas@quiebrajano.example">Escríbenos por correo</a>
+    </div>
+    <nav aria-label="Páginas">
+      <p class="pie-primera">Páginas</p>
+      <a href="index.html">Inicio</a>
+      <a href="habitaciones.html">Habitaciones</a>
+      <a href="observacion.html">Observación</a>
+      <a href="sobre-nosotros.html">Sobre nosotros</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <nav aria-label="Legal">
+      <p class="pie-primera">Legal</p>
+      <a href="aviso-legal.html">Aviso legal</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="creditos.html">Créditos</a>
+    </nav>
+    <div>
+      <p class="pie-primera">Llegadas</p>
+      <p>Lunes a jueves, 17:00–20:00</p>
+      <p>Viernes y sábado, 16:00–21:00</p>
+      <p>Domingo, 09:00–12:00</p>
+    </div>
+  </div>
+
+  <svg class="pie-marca" viewBox="0 0 1000 116" role="img" aria-label="Cortijo Quiebrajano">
+    <text x="0" y="88" textLength="1000" lengthAdjust="spacingAndGlyphs">Cortijo Quiebrajano</text>
+  </svg>
+  <p class="pie-legal">© 2026 Cortijo Quiebrajano. Marca ficticia. Web de demostración de <a href="https://danimefle.com">danimefle.com</a>. Imágenes y licencias en <a href="creditos.html">créditos</a>.</p>
+</footer>
+
+<!-- Símbolos compartidos / Shared symbols -->
+<svg width="0" height="0" class="oculto" aria-hidden="true" focusable="false">
+  <symbol id="signo" viewBox="0 0 32 32">
+    <path d="M1 27 L9.5 15 L13.5 20 L19.5 10.5 L31 27 Z"/><path d="M25 1.5 L26.3 4.7 L29.5 6 L26.3 7.3 L25 10.5 L23.7 7.3 L20.5 6 L23.7 4.7 Z"/>
+  </symbol>
+</svg>
+</body>
+</html>

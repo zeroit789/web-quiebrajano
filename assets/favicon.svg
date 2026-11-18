@@ -1,0 +1,7 @@
+<!-- favicon.svg — La sierra de Quiebrajano con una estrella, en bronce sobre la noche. / The Quiebrajano range with a star, in bronze on the night. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#111111"/>
+  <g fill="#c4a690" transform="translate(3 3) scale(0.8125)">
+    <path d="M1 27 L9.5 15 L13.5 20 L19.5 10.5 L31 27 Z"/><path d="M25 1.5 L26.3 4.7 L29.5 6 L26.3 7.3 L25 10.5 L23.7 7.3 L20.5 6 L23.7 4.7 Z"/>
+  </g>
+</svg>

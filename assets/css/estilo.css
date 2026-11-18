@@ -1,0 +1,796 @@
+/*
+ * estilo.css — Hoja de estilos de Cortijo Quiebrajano: una sala oscura con cosas iluminadas.
+ * estilo.css — Cortijo Quiebrajano stylesheet: a dark room with lit things in it.
+ *
+ * Orden: fuentes, variables, base, cada sección de la página en su orden, movimiento, tableta y móvil.
+ * Order: fonts, tokens, base, each page section in order, motion, tablet and phone.
+ */
+
+/* ========== Fuentes (Schibsted Grotesk, licencia SIL OFL 1.1, ver assets/fonts/OFL.txt) ==========
+   ========== Fonts (Schibsted Grotesk, SIL OFL 1.1 licence, see assets/fonts/OFL.txt) ========== */
+/* Fuente variable: un solo fichero cubre los pesos 400 y 500 / Variable font: one file covers weights 400 and 500 */
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  src: url('../fonts/schibsted-grotesk-latin-ext.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Schibsted Grotesk';
+  src: url('../fonts/schibsted-grotesk-latin.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ========== Variables: color, tipo, márgenes ==========
+   ========== Tokens: colour, type, margins ========== */
+:root {
+  /* Paleta «Lunar y bronce» / "Lunar and bronze" palette */
+  --bg: #111111;
+  --surface: #1c1c1c;
+  --surface-2: #262626;
+  --ink: #f2f2f2;
+  --muted: #9a9a9a;
+  --accent: #a08672;
+  --accent-ink: #111111;
+  /* Tinta secundaria para el pie claro (7:1) / Secondary ink for the light footer (7:1) */
+  --muted-claro: #4f4f4f;
+  /* Tramos de la barra de la noche / Night bar spans */
+  --tramo-crep: #2a2a2a;
+  --tramo-luna: #5e5e5e;
+
+  /* Tamaños de letra con tope para pantallas grandes / Type steps capped for large screens */
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --step-head: clamp(1.75rem, 0.8rem + 3.4vw, 3.75rem);
+  --step-display: clamp(2.5rem, 1rem + 4.2vw, 6rem);
+
+  /* Márgenes: fijos en móvil y, en pantallas anchas, el contenido se centra en 1760 px.
+     Margins: fixed on phones and, on wide screens, content centres within 1760 px. */
+  --margen: clamp(16px, 2.2vw, 32px);
+  --lado: max(var(--margen), calc((100vw - 1760px) / 2));
+  --hueco: clamp(16px, 1.7vw, 28px);
+  --entre-secciones: clamp(96px, 8vw, 120px);
+
+  --facil: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ========== Base ==========
+   ========== Base ========== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--step-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+/* Cifras tabulares solo donde se alinean números (en esta fuente, tnum también ensancha comas y puntos).
+   Tabular figures only where numbers align (in this face, tnum also widens commas and full stops). */
+.programa td:last-child, .carta-fila span:last-child, .tarjeta-horas dd, .calc-horas, .tabla-lluvias td, .dia-numero, .dia-horas { font-variant-numeric: tabular-nums; }
+img, video, canvas, svg { display: block; max-width: 100%; }
+img, video { height: auto; }
+h1, h2, h3, p, figure, dl, dd, ul, address { margin: 0; }
+ul { padding: 0; list-style: none; }
+address { font-style: normal; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* Títulos: regulares, apretados, nunca en negrita / Headings: regular, tight, never bold */
+h1, h2 {
+  font-weight: 400;
+  font-size: var(--step-head);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+h3 { font-weight: 500; font-size: var(--step-lead); line-height: 1.2; letter-spacing: -0.01em; }
+
+/* Un solo tratamiento para todas las imágenes: algo más oscuras, para que se queden en la sala.
+   One treatment for every picture: slightly darker, so they sit in the room. */
+.pagina img, .pagina video { filter: brightness(0.84) contrast(1.05); }
+
+figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px; line-height: 1.4; }
+
+/* Texto solo para lectores de pantalla / Screen-reader-only text */
+.oculto {
+  position: absolute; inline-size: 1px; block-size: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Foco visible sin retardo / Focus ring with no delay */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Enlaces de texto: cambio de color en 180 ms / Text links: 180 ms colour change */
+a { color: inherit; }
+.enlace, .pie a {
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition: color 180ms ease;
+}
+.enlace:hover { color: var(--accent); }
+
+/* Botón: un solo tipo, plano, esquinas rectas; pulsación de 140 ms.
+   Button: one kind, flat, square corners; 140 ms press. */
+.boton {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: var(--accent-ink);
+  font: 500 var(--step-body)/1 'Schibsted Grotesk', system-ui, sans-serif;
+  text-decoration: none; border: 0; border-radius: 0;
+  padding: 0 24px; min-height: 52px;
+  transition: transform 140ms ease, background-color 180ms ease;
+}
+.boton:hover { background: #b39883; }
+.boton:active { transform: scale(0.97); }
+.boton--peque { min-height: 42px; padding: 0 18px; font-size: var(--step-small); }
+
+/* Rejilla de 12 columnas común, centrada en pantallas anchas / Shared 12-col grid, centred when wide */
+.cielo, .habitaciones, .noches, .eleccion, .precios {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--hueco);
+  padding-inline: var(--lado);
+  margin-top: var(--entre-secciones);
+}
+
+/* ========== HÉROE: cielo a sangre ==========
+   ========== HERO: full-bleed sky ========== */
+.heroe {
+  position: relative;
+  min-height: min(100svh, 1120px);
+  display: flex; flex-direction: column;
+  padding: 0 var(--lado) clamp(28px, 4vw, 56px);
+  overflow: hidden;
+  isolation: isolate;
+}
+.pagina .heroe-foto {
+  position: absolute; inset: 0; z-index: -1;
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
+  filter: brightness(0.6) contrast(1.08);
+}
+/* ========== CABECERA COMÚN Y MENÚ ==========
+   ========== SHARED HEADER AND MENU ========== */
+/* Enlace para saltar al contenido, visible al recibir el foco / Skip link, visible on focus */
+.saltar {
+  position: absolute; left: var(--margen); top: -100px; z-index: 50;
+  background: var(--ink); color: var(--bg); padding: 12px 18px; text-decoration: none; font-weight: 500;
+}
+.saltar:focus { top: 12px; }
+main:focus { outline: none; }
+
+.cabecera {
+  position: relative; z-index: 20;
+  display: flex; align-items: center; gap: 32px;
+  padding: 20px var(--lado);
+}
+/* En la portada la cabecera va encima de la foto / On the home page the header sits over the photo */
+.cabecera--sobre { position: absolute; top: 0; left: 0; right: 0; background: rgba(17, 17, 17, 0.78); }
+body.menu-abierto { overflow: hidden; }
+.marca {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+  font-size: var(--step-body); font-weight: 500; text-decoration: none;
+}
+.marca-signo { width: 26px; height: 26px; fill: var(--accent); }
+.menu { display: flex; align-items: center; gap: 28px; margin-left: auto; font-size: var(--step-small); }
+.menu ul { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.menu ul a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--ink); transition: color 180ms ease; }
+.menu ul a:hover { color: var(--accent); }
+.menu ul a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-thickness: 2px; text-decoration-color: var(--accent); }
+.menu-boton {
+  display: none;
+  font: 500 var(--step-small) 'Schibsted Grotesk', system-ui, sans-serif;
+  color: var(--ink); background: var(--surface); border: 0; border-radius: 0;
+  min-height: 44px; min-width: 44px; padding: 0 16px; margin-left: auto; cursor: pointer;
+  transition: background-color 180ms ease, transform 140ms ease;
+}
+.menu-boton:hover { background: var(--surface-2); }
+.menu-boton:active { transform: scale(0.97); }
+
+.heroe-contenido {
+  margin-top: auto;
+  padding-top: clamp(48px, 10vh, 140px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
+  gap: clamp(32px, 5vw, 96px);
+  align-items: end;
+}
+/* Velo oscuro detrás del texto del héroe: contraste alto sobre cualquier zona de la foto.
+   Dark veil behind the hero text: high contrast over any part of the photo. */
+.heroe-texto { background: rgba(17, 17, 17, 0.74); padding: clamp(20px, 2.4vw, 36px); justify-self: start; }
+.heroe h1 { font-size: var(--step-display); line-height: 0.98; max-width: 11em; }
+.heroe-sub { margin-top: 28px; max-width: 48ch; font-size: var(--step-body); color: var(--ink); }
+.heroe-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
+/* Créditos sobre foto: siempre sobre fondo sólido (contraste 4,5:1 o más).
+   Credits over a photo: always on a solid ground (4.5:1 contrast or more). */
+.credito-foto {
+  position: absolute; z-index: 2;
+  margin: 0; padding: 6px 10px;
+  background: var(--bg); color: var(--ink);
+  font-size: var(--step-small); line-height: 1.4;
+}
+.heroe-credito { right: var(--lado); top: 96px; }
+
+/* Panel «Esta noche»: superficie opaca, Luna calculada / "Tonight" panel: opaque surface, computed Moon */
+.esta-noche {
+  background: var(--bg);
+  padding: 24px;
+  display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px; align-items: start;
+}
+.esta-noche-luna { width: 96px; height: 96px; }
+.esta-noche-texto { display: grid; gap: 6px; }
+.esta-noche-titulo { font-size: var(--step-small); font-weight: 500; letter-spacing: 0; color: var(--muted); line-height: 1.3; }
+.esta-noche-fase { font-size: var(--step-lead); line-height: 1.2; }
+.esta-noche-dato { font-size: var(--step-small); color: var(--ink); }
+.esta-noche .enlace { font-size: var(--step-small); margin-top: 4px; }
+
+/* ========== EL CIELO ==========
+   ========== THE SKY ========== */
+.cielo-texto { grid-column: 1 / 7; display: grid; gap: 20px; align-content: start; }
+.cielo-texto > p { max-width: 46ch; }
+.cielo-sub { margin-top: 12px; }
+.estaciones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; }
+.estaciones div { background: var(--surface); padding: 18px 20px; }
+.estaciones dt { font-weight: 500; color: var(--accent); margin-bottom: 4px; }
+.estaciones dd { font-size: var(--step-body); line-height: 1.45; }
+.cielo-fotos {
+  grid-column: 7 / 13;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+  gap: var(--hueco);
+  min-height: 560px;
+}
+.cielo-foto { display: flex; flex-direction: column; min-height: 0; }
+.cielo-foto img { flex: 1; min-height: 0; width: 100%; height: 100%; object-fit: cover; }
+.cielo-foto--alta { grid-row: 1 / 3; }
+
+/* ========== HABITACIONES ==========
+   ========== ROOMS ========== */
+.seccion-cabeza { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); align-items: end; margin-bottom: 40px; }
+.seccion-cabeza h2 { grid-column: 1 / 6; }
+.seccion-cabeza p { grid-column: 7 / 13; max-width: 46ch; }
+.hab-rejilla { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px var(--hueco); }
+.hab { display: grid; gap: 20px; align-content: start; }
+.hab-foto img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.hab-texto { display: grid; gap: 12px; }
+.hab-texto > p { max-width: 46ch; }
+.hab-cabeza { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.hab-precio { color: var(--muted); font-size: var(--step-body); }
+.hab-datos { display: flex; flex-wrap: wrap; gap: 6px 32px; }
+.hab-datos dt { font-size: var(--step-small); color: var(--muted); }
+.hab-datos dd { font-size: var(--step-body); }
+
+/* ========== UNA NOCHE AQUÍ ==========
+   ========== A NIGHT HERE ========== */
+.noches-cabeza { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); align-items: start; }
+.noches-intro { grid-column: 1 / 7; display: grid; gap: 20px; }
+.noches-intro p { max-width: 46ch; }
+.noches-video { grid-column: 8 / 13; }
+.noches-video video { width: 100%; aspect-ratio: 2 / 1; object-fit: cover; }
+
+.programa-titulo { grid-column: 1 / 13; margin-top: 56px; }
+.programa {
+  grid-column: 1 / 13;
+  width: 100%;
+  margin-top: 8px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: var(--step-lead);
+  line-height: 1.55;
+}
+.programa td, .programa th { padding: 0; text-align: left; font-weight: 400; vertical-align: top; }
+.programa td:nth-child(1) { width: 33%; }
+.programa td:nth-child(2) { width: 33%; }
+.programa td:nth-child(3) { width: 20%; }
+.programa td:last-child { text-align: right; }
+.programa-dia th { color: var(--accent); padding: 32px 0 8px; }
+.programa-pausa td { color: var(--muted); }
+
+/* ========== ELIGE TU NOCHE ==========
+   ========== PICK YOUR NIGHT ========== */
+.eleccion { align-items: center; }
+.eleccion-luna { grid-column: 1 / 6; max-width: 560px; width: 100%; justify-self: center; }
+.eleccion-luna canvas, .luna-respaldo { width: 100%; height: auto; aspect-ratio: 1; }
+.js .luna-respaldo { display: none; }
+html:not(.js) .eleccion-luna canvas, html:not(.js) .esta-noche-luna { display: none; }
+html:not(.js) .esta-noche { grid-template-columns: minmax(0, 1fr); }
+.eleccion-panel { grid-column: 7 / 13; display: grid; gap: 22px; align-content: center; }
+.eleccion-panel > p { max-width: 46ch; }
+
+.calculador { display: grid; gap: 24px; }
+.calculador[hidden] { display: none; }
+.calc-controles { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.calc-fecha { display: grid; gap: 6px; font-size: var(--step-small); color: var(--muted); }
+.calc-fecha input {
+  font: 500 var(--step-body) 'Schibsted Grotesk', system-ui, sans-serif;
+  color: var(--ink); background: var(--surface);
+  border: 0; border-radius: 0; min-height: 52px; padding: 0 14px;
+  color-scheme: dark;
+}
+.calc-pasos { display: flex; gap: 12px; flex-wrap: wrap; }
+.paso, .luna-boton {
+  font: 400 var(--step-body) 'Schibsted Grotesk', system-ui, sans-serif;
+  color: var(--ink); background: var(--surface);
+  border: 0; border-radius: 0; min-height: 52px; padding: 0 18px;
+  cursor: pointer;
+  transition: transform 140ms ease, background-color 180ms ease, color 180ms ease;
+}
+.paso:hover, .luna-boton:hover { background: var(--surface-2); }
+.paso:active, .luna-boton:active { transform: scale(0.97); }
+
+.calc-resultado { display: grid; gap: 10px; }
+.calc-fase { font-size: var(--step-head); line-height: 1.02; letter-spacing: -0.03em; }
+.calc-detalle { color: var(--muted); max-width: 46ch; }
+.calc-oscuro { font-size: var(--step-lead); line-height: 1.3; }
+.calc-noche { position: relative; height: 14px; background: var(--tramo-crep); margin-top: 8px; overflow: hidden; }
+.calc-noche span { position: absolute; top: 0; bottom: 0; transform-origin: left center; transition: transform 600ms var(--facil); }
+.calc-noche .t-crepusculo { background: var(--tramo-crep); }
+.calc-noche .t-luna { background: var(--tramo-luna); }
+.calc-noche .t-oscuro { background: var(--accent); }
+.calc-horas { display: flex; justify-content: space-between; font-size: var(--step-small); color: var(--muted); }
+.calc-leyenda { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: var(--step-small); color: var(--muted); }
+.calc-leyenda li { display: flex; align-items: center; gap: 8px; }
+.calc-leyenda i { width: 12px; height: 12px; display: inline-block; }
+.l-crep { background: var(--tramo-crep); }
+.l-luna { background: var(--tramo-luna); }
+.l-oscuro { background: var(--accent); }
+.calc-veredicto { margin-top: 6px; max-width: 46ch; }
+
+.lunas { display: grid; gap: 14px; margin-top: 8px; }
+.lunas-lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.luna-boton { text-align: left; width: 100%; padding-block: 10px; }
+.luna-boton small { display: block; font-size: var(--step-small); color: var(--muted); }
+.luna-boton[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.luna-boton[aria-pressed="true"] small { color: #3a3a3a; }
+
+/* ========== PRECIOS: como una carta ==========
+   ========== PRICES: like a menu ========== */
+.precios-lado { grid-column: 1 / 4; display: grid; gap: 20px; align-content: start; }
+.precios-lado > p { color: var(--muted); }
+.precios-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.carta { grid-column: 5 / 13; columns: 2; column-gap: 64px; }
+.carta-grupo { break-inside: avoid; padding-bottom: 40px; }
+.carta-grupo h3 { margin-bottom: 6px; }
+.carta-nota { color: var(--muted); font-size: var(--step-small); margin-bottom: 16px; max-width: 40ch; }
+.carta li + li { margin-top: 18px; }
+.carta-fila { display: flex; justify-content: space-between; gap: 16px; font-size: var(--step-body); }
+.carta li p { color: var(--muted); max-width: 40ch; font-size: var(--step-body); line-height: 1.4; }
+
+/* ========== CONTACTO: tarjeta sobre la foto de la sierra ==========
+   ========== CONTACT: card on the sierra photograph ========== */
+.contacto {
+  position: relative;
+  margin-top: var(--entre-secciones);
+  min-height: clamp(560px, 48vw, 760px);
+  padding: 48px var(--lado);
+  display: flex; justify-content: flex-end; align-items: flex-start;
+  overflow: hidden;
+  isolation: isolate;
+}
+.contacto-foto { position: absolute; inset: 0; z-index: -1; margin: 0; }
+.pagina .contacto-foto img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.62) contrast(1.05);
+  transform-origin: 30% 70%;
+}
+.contacto-foto figcaption {
+  position: absolute; left: var(--lado); bottom: 20px;
+  margin: 0; padding: 6px 10px; background: var(--bg); color: var(--muted);
+}
+.tarjeta {
+  width: min(400px, 100%);
+  background: var(--surface);
+  padding: 32px 32px 0;
+  display: grid; gap: 16px;
+}
+.tarjeta h2 { font-size: var(--step-lead); letter-spacing: -0.01em; }
+.tarjeta-nota { color: var(--muted); font-size: var(--step-small); }
+.seccion-pie { grid-column: 1 / 13; margin-top: 32px; }
+.seccion-pie--arriba { margin-top: 40px; }
+code { font: inherit; }
+.tarjeta-horas { display: grid; gap: 4px; margin-top: -8px; }
+.tarjeta-horas div { display: flex; justify-content: space-between; gap: 12px; }
+.tarjeta-horas dt { color: var(--muted); }
+.boton--tarjeta { margin: 8px -32px 0; }
+
+/* ========== PIE: claro, compacto, con el nombre entero ==========
+   ========== FOOTER: light, compact, with the whole name ========== */
+.pie {
+  background: var(--ink); color: var(--bg);
+  padding: clamp(48px, 5vw, 80px) var(--lado) 24px;
+}
+.pie-columnas {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--hueco); row-gap: 32px;
+  font-size: var(--step-body); line-height: 1.5;
+}
+.pie-columnas > * { overflow-wrap: anywhere; display: flex; flex-direction: column; align-items: flex-start; color: var(--muted-claro); }
+.pie-primera { color: var(--bg); font-weight: 500; }
+.pie a { color: var(--muted-claro); }
+.pie a:hover { color: var(--bg); }
+.pie-marca { width: 100%; height: auto; margin-top: clamp(40px, 5vw, 72px); overflow: visible; }
+.pie-marca text { font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-weight: 400; font-size: 110px; fill: var(--bg); }
+.pie-legal { margin-top: 16px; font-size: var(--step-small); color: var(--muted-claro); max-width: 52ch; }
+
+/* ========== Movimiento: entradas escalonadas que fallan abiertas ==========
+   ========== Motion: staggered entrances that fail open ========== */
+.js [data-revela] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 560ms var(--facil) var(--retardo, 0ms), transform 560ms var(--facil) var(--retardo, 0ms);
+}
+.js [data-revela].visto { opacity: 1; transform: none; }
+/* Botón para pausar los vídeos en bucle / Button to pause looping videos */
+figure:has(> .video-boton) { position: relative; }
+.video-boton {
+  position: absolute; left: 10px; top: 10px; min-height: 44px; padding: 0 16px;
+  font: 400 var(--step-small) 'Schibsted Grotesk', system-ui, sans-serif;
+  color: var(--ink); background: var(--surface); border: 0; border-radius: 0; cursor: pointer;
+  transition: background-color 180ms ease, transform 140ms ease;
+}
+.video-boton:hover { background: var(--surface-2); }
+.video-boton:active { transform: scale(0.97); }
+/* Aparición del resultado al cambiar de noche / Result fade on a new night */
+.calc-resultado.cambia > * { animation: aparece 520ms var(--facil) both; }
+.calc-resultado.cambia > *:nth-child(2) { animation-delay: 60ms; }
+.calc-resultado.cambia > *:nth-child(3) { animation-delay: 120ms; }
+.calc-resultado.cambia > *:nth-child(7) { animation-delay: 180ms; }
+@keyframes aparece { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-revela] { opacity: 1; transform: none; transition: none; }
+  .calc-resultado.cambia > * { animation: none; }
+  .calc-noche span { transition: none; }
+}
+
+/* ========== PÁGINAS INTERIORES: piezas comunes ==========
+   ========== INNER PAGES: shared pieces ========== */
+.cabeza-pagina, .bloque-dos, .dos-listas, .sesion, .calendario-sec, .lluvias, .lugar, .valores,
+.contacto-rejilla, .ficha, .error {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--hueco);
+  padding-inline: var(--lado);
+  margin-top: var(--entre-secciones);
+}
+.cabeza-pagina { margin-top: clamp(32px, 4vw, 64px); row-gap: 24px; align-items: end; }
+.cabeza-pagina > h1, .cabeza-pagina > .cabeza-entrada, .cabeza-pagina > .indice { grid-column: 1 / 10; }
+.cabeza-pagina h1, .cabeza-banda h1, .error h1, .legal h1 { font-size: var(--step-display); line-height: 0.98; }
+.cabeza-entrada { font-size: var(--step-lead); line-height: 1.4; max-width: 40ch; }
+.indice { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.indice a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  background: var(--surface); color: var(--ink); text-decoration: none;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+.indice a:hover { background: var(--surface-2); color: var(--accent); }
+
+/* Cabeza con foto al lado / Head with a photo beside it */
+.cabeza-pagina--foto { align-items: center; }
+.cabeza-pagina--foto .cabeza-texto { grid-column: 1 / 7; display: grid; gap: 24px; }
+.cabeza-pagina--foto .cabeza-foto { grid-column: 8 / 13; }
+.cabeza-foto img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+
+/* Cabeza en banda de foto (sobre nosotros) / Photo-band head (about) */
+.cabeza-banda { position: relative; isolation: isolate; min-height: clamp(460px, 62vh, 680px); display: flex; align-items: flex-end; padding: 0 var(--lado); }
+.pagina .cabeza-banda-foto { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7) contrast(1.05); }
+.cabeza-banda-texto { background: var(--bg); padding: 32px 36px 0 0; max-width: 820px; display: grid; gap: 20px; }
+.cabeza-banda .credito-foto { right: var(--lado); top: 16px; }
+
+/* Fichas de habitación / Room sheets */
+.ficha { align-items: start; row-gap: 32px; }
+.ficha-lamina { grid-column: 1 / 7; }
+.ficha-lamina img { width: 100%; }
+.ficha-lamina--alta { grid-column: 2 / 6; }
+.ficha-texto { grid-column: 8 / 13; display: grid; gap: 16px; align-content: start; }
+.ficha-texto > p { max-width: 46ch; }
+.ficha--espejo .ficha-lamina { grid-column: 7 / 13; grid-row: 1; }
+.ficha--espejo .ficha-lamina--alta { grid-column: 8 / 12; }
+.ficha--espejo .ficha-texto { grid-column: 1 / 6; grid-row: 1; }
+.ficha-precio { font-size: var(--step-lead); color: var(--accent); }
+.ficha-datos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ficha-datos div { background: var(--surface); padding: 12px 16px; }
+.ficha-datos dt { font-size: var(--step-small); color: var(--muted); }
+.ficha-datos--columna { grid-template-columns: minmax(0, 1fr); }
+
+/* Dos listas y bloques de dos / Two lists and two-part blocks */
+.dos-listas > div { display: grid; gap: 20px; align-content: start; }
+.dos-listas > div:first-child { grid-column: 1 / 6; }
+.dos-listas > div:last-child { grid-column: 7 / 13; }
+.lista-puntos { display: grid; gap: 12px; }
+.lista-puntos li { position: relative; padding-left: 22px; max-width: 46ch; }
+.lista-puntos li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 8px; background: var(--accent); }
+.dos-listas .boton { justify-self: start; margin-top: 8px; }
+
+.bloque-dos { align-items: center; row-gap: 32px; }
+.bloque-dos > div { grid-column: 1 / 7; display: grid; gap: 20px; }
+.bloque-dos > div > p { max-width: 46ch; }
+.bloque-dos > figure, .bloque-dos > dl, .bloque-dos > ul { grid-column: 8 / 13; }
+.bloque-dos--espejo > div { grid-column: 7 / 13; grid-row: 1; }
+.bloque-dos--espejo > figure { grid-column: 1 / 6; grid-row: 1; }
+.bloque-foto img { width: 100%; max-height: 640px; object-fit: cover; }
+.bloque-dos .boton { justify-self: start; }
+
+/* Sesión paso a paso / Session step by step */
+.sesion > h2 { grid-column: 1 / 13; margin-bottom: 24px; }
+.pasos { grid-column: 1 / 13; list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+.pasos li { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); background: var(--surface); padding: 20px 24px; }
+.pasos h3 { grid-column: 1 / 5; }
+.pasos p { grid-column: 5 / 12; max-width: 52ch; }
+
+/* Calendario lunar / Lunar calendar */
+.calendario-cabeza { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); align-items: end; margin-bottom: 32px; }
+.calendario-cabeza h2 { grid-column: 1 / 6; }
+.calendario-cabeza p { grid-column: 7 / 13; max-width: 46ch; }
+.calendario-ui { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); row-gap: 40px; align-items: start; }
+.calendario { grid-column: 1 / 8; }
+.calendario[hidden] { display: none; }
+.calendario-detalle { grid-column: 8 / 13; display: grid; gap: 24px; }
+.calendario-luna { width: min(240px, 60%); height: auto; aspect-ratio: 1; }
+.calendario-detalle .luna-respaldo { width: min(240px, 60%); }
+html:not(.js) .calendario-luna { display: none; }
+.calendario-barra { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.calendario-titulo { text-align: center; }
+.calendario-tabla { width: 100%; border-collapse: separate; border-spacing: 4px; table-layout: fixed; }
+.calendario-tabla th { font-weight: 500; font-size: var(--step-small); color: var(--muted); padding: 4px 0; }
+.calendario-tabla abbr { text-decoration: none; }
+.calendario-tabla td { padding: 0; vertical-align: top; }
+.dia {
+  width: 100%; min-height: 76px; padding: 8px 6px;
+  display: grid; justify-items: center; align-content: start; gap: 4px;
+  font: 400 var(--step-small) 'Schibsted Grotesk', system-ui, sans-serif;
+  color: var(--ink); background: var(--surface); border: 0; border-radius: 0; cursor: pointer;
+  transition: background-color 180ms ease, transform 140ms ease;
+}
+.dia:hover { background: var(--surface-2); }
+.dia:active { transform: scale(0.96); }
+.dia-numero { font-size: var(--step-body); line-height: 1; }
+.dia canvas { width: 26px; height: 26px; }
+.dia-barra { width: 100%; height: 6px; background: var(--tramo-crep); position: relative; }
+.dia-barra i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
+.dia-horas { color: var(--muted); font-size: var(--step-small); line-height: 1; }
+.dia[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.dia[aria-pressed="true"] .dia-horas { color: #3a3a3a; }
+.dia-hoy .dia-numero { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.25em; }
+.cal-leyenda { margin-top: 12px; }
+.calendario-detalle .lunas-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Lluvias de estrellas / Meteor showers */
+.lluvias-cabeza { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); align-items: end; margin-bottom: 24px; }
+.lluvias-cabeza h2 { grid-column: 1 / 6; }
+.lluvias-cabeza p { grid-column: 7 / 13; max-width: 46ch; }
+.tabla-lluvias { grid-column: 1 / 13; width: 100%; border-collapse: collapse; font-size: var(--step-body); }
+.tabla-lluvias th, .tabla-lluvias td { text-align: left; padding: 12px 16px 12px 0; vertical-align: top; }
+.tabla-lluvias thead th { font-size: var(--step-small); font-weight: 500; color: var(--muted); }
+.tabla-lluvias tbody th { font-weight: 500; }
+.tabla-lluvias tbody tr:nth-child(odd) { background: var(--surface); }
+.tabla-lluvias tbody th, .tabla-lluvias thead th:first-child { padding-left: 16px; }
+.lluvias-fotos { grid-column: 1 / 13; display: grid; grid-template-columns: 1fr 2fr; gap: var(--hueco); align-items: end; margin-bottom: 32px; }
+.lluvias-fotos img, .lluvias-fotos video { width: 100%; height: clamp(220px, 26vw, 440px); object-fit: cover; }
+.sesion-cabeza { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); align-items: end; margin-bottom: 24px; }
+.sesion-cabeza h2 { grid-column: 1 / 6; }
+.sesion-foto { grid-column: 7 / 13; }
+.sesion-foto img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
+.lugar-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.nota-tabla { grid-column: 1 / 13; margin-top: 12px; color: var(--muted); font-size: var(--step-small); }
+
+/* Carta sencilla / Simple price list */
+.carta-simple { display: grid; gap: 18px; }
+.carta-simple p { color: var(--muted); }
+
+/* El lugar y los valores / The place and the values */
+.lugar > h2, .valores > h2 { grid-column: 1 / 13; margin-bottom: 24px; }
+.lugar-columnas { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--hueco); align-items: start; }
+.lugar-columnas p { max-width: 46ch; }
+.valores-rejilla { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px var(--hueco); }
+.valor { display: grid; gap: 10px; align-content: start; }
+.valor p { max-width: 46ch; }
+
+/* Contacto: formulario y llegada / Contact: form and arrival */
+.contacto-rejilla { align-items: start; row-gap: 48px; margin-top: 48px; }
+.formulario-caja { grid-column: 1 / 8; display: grid; gap: 20px; }
+.llegada { grid-column: 9 / 13; display: grid; gap: 16px; }
+.llegada h3 { margin-top: 8px; }
+.aviso-demo { background: var(--surface); padding: 16px 20px; max-width: 60ch; }
+.js .sin-js { display: none; }
+.formulario { display: grid; gap: 20px; }
+.campo { display: grid; gap: 6px; align-content: start; }
+.campo-fila { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--hueco); }
+.campo label { font-weight: 500; }
+.opcional { font-weight: 400; color: var(--muted); }
+.campo input, .campo select, .campo textarea {
+  font: 400 var(--step-body) 'Schibsted Grotesk', system-ui, sans-serif;
+  color: var(--ink); background: var(--surface);
+  border: 1px solid #7a7a7a; border-radius: 0;
+  min-height: 52px; padding: 10px 14px; width: 100%;
+  color-scheme: dark;
+}
+.campo textarea { resize: vertical; min-height: 140px; }
+.campo [aria-invalid="true"] { border-color: #f3b39e; }
+.campo-pista { color: var(--muted); font-size: var(--step-small); }
+.campo-error { color: #f3b39e; font-size: var(--step-small); font-weight: 500; }
+.formulario .boton { justify-self: start; cursor: pointer; }
+.form-resultado { background: var(--surface); padding: 24px; display: grid; gap: 12px; }
+.form-resultado[hidden] { display: none; }
+.form-resultado-titulo { font-size: var(--step-lead); }
+.form-resultado .boton { justify-self: start; }
+.mapa { margin-top: 8px; }
+.mapa svg { width: 100%; height: auto; }
+
+/* Legales / Legal pages */
+.legal { padding-inline: var(--lado); margin-top: clamp(32px, 4vw, 64px); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--hueco); row-gap: 32px; align-items: start; }
+.legal-cabeza { grid-column: 1 / 6; display: grid; gap: 20px; }
+.legal-cuerpo { grid-column: 6 / 13; display: grid; gap: 14px; }
+.legal-cuerpo > h2:first-child { margin-top: 0; }
+.legal h2 { font-size: var(--step-lead); font-weight: 500; letter-spacing: -0.01em; margin-top: 28px; }
+.legal p { max-width: 62ch; }
+.tabla-desliza { overflow-x: auto; }
+.tabla-creditos { width: 100%; border-collapse: collapse; font-size: var(--step-small); }
+.tabla-creditos th, .tabla-creditos td { text-align: left; padding: 12px 16px 12px 0; vertical-align: top; }
+.tabla-creditos thead th { color: var(--muted); font-weight: 500; }
+.tabla-creditos tbody th { font-weight: 500; padding-left: 12px; }
+.tabla-creditos tbody tr:nth-child(odd) { background: var(--surface); }
+
+/* Página 404 / 404 page */
+.error { align-items: center; margin-top: clamp(32px, 4vw, 64px); row-gap: 32px; }
+.error-luna { grid-column: 1 / 6; width: 100%; max-width: 480px; justify-self: center; }
+.error > div { grid-column: 7 / 13; display: grid; gap: 20px; }
+.error-enlaces { display: grid; gap: 8px; }
+
+/* Tableta: páginas interiores / Tablet: inner pages */
+@media (max-width: 1100px) and (min-width: 721px) {
+  .cabeza-pagina > h1, .cabeza-pagina > .cabeza-entrada, .cabeza-pagina > .indice { grid-column: 1 / 13; }
+  .cabeza-pagina--foto .cabeza-texto, .cabeza-pagina--foto .cabeza-foto { grid-column: 1 / 13; }
+  .ficha-lamina, .ficha--espejo .ficha-lamina { grid-column: 1 / 13; grid-row: 1; }
+  .ficha-lamina--alta, .ficha--espejo .ficha-lamina--alta { grid-column: 3 / 11; }
+  .ficha-texto, .ficha--espejo .ficha-texto { grid-column: 1 / 13; grid-row: 1; }
+  .ficha-lamina, .ficha--espejo .ficha-lamina, .ficha-lamina--alta, .ficha--espejo .ficha-lamina--alta { grid-row: 2; }
+  .sesion-cabeza h2, .sesion-foto { grid-column: 1 / 13; }
+  .sesion-foto { margin-top: 24px; }
+  .calendario, .calendario-detalle { grid-column: 1 / 13; }
+  .formulario-caja, .llegada { grid-column: 1 / 13; }
+  .legal-cabeza, .legal-cuerpo { grid-column: 1 / 13; position: static; }
+  .lugar-columnas { grid-template-columns: minmax(0, 1fr); }
+  .calendario-cabeza h2, .calendario-cabeza p, .lluvias-cabeza h2, .lluvias-cabeza p { grid-column: 1 / 13; }
+}
+
+/* Móvil: páginas interiores en una columna / Phone: inner pages in one column */
+@media (max-width: 720px) {
+  .cabeza-pagina, .bloque-dos, .dos-listas, .sesion, .calendario-sec, .lluvias, .lugar, .valores,
+  .contacto-rejilla, .ficha, .error, .calendario-cabeza, .calendario-ui, .lluvias-cabeza { grid-template-columns: minmax(0, 1fr); }
+  .cabeza-pagina > *, .bloque-dos > *, .dos-listas > *, .sesion > *, .calendario-sec > *, .lluvias > *, .lugar > *, .valores > *,
+  .contacto-rejilla > *, .ficha > *, .error > *, .calendario-cabeza > *, .calendario-ui > *, .lluvias-cabeza > *,
+  .cabeza-pagina--foto .cabeza-texto, .cabeza-pagina--foto .cabeza-foto { grid-column: 1 !important; grid-row: auto !important; }
+  .ficha-lamina--alta { width: 80%; justify-self: center; }
+  .pasos li { grid-template-columns: minmax(0, 1fr); row-gap: 6px; padding: 16px; }
+  .pasos h3, .pasos p { grid-column: 1; }
+  .lugar-columnas, .valores-rejilla, .ficha-datos { grid-template-columns: minmax(0, 1fr); }
+  .campo-fila { grid-template-columns: minmax(0, 1fr); }
+  .cabeza-banda-texto { padding: 24px 20px 0 0; }
+  .cabeza-banda .credito-foto { left: var(--margen); right: var(--margen); }
+  .dia { min-height: 64px; padding: 6px 2px; }
+  .dia canvas { width: 20px; height: 20px; }
+  .calendario-tabla { border-spacing: 2px; }
+  .calendario-barra .paso { padding: 0 10px; }
+  .tabla-lluvias, .tabla-lluvias tbody, .tabla-lluvias tr { display: block; }
+  .tabla-lluvias thead { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .tabla-lluvias tr { padding: 12px 16px; display: grid; gap: 2px; }
+  .tabla-lluvias th, .tabla-lluvias td { padding: 0 !important; }
+  .error-luna { width: 60%; }
+  .ficha > .ficha-texto { order: 1; }
+  /* El pie de la lámina va encima de ella, no pegado al título siguiente / Plate caption above the plate */
+  .ficha-lamina { display: flex; flex-direction: column; }
+  .ficha-lamina figcaption { order: -1; margin: 0 0 10px; }
+  .ficha > .ficha-lamina { order: 2; }
+  .ficha { display: flex; flex-direction: column; gap: 28px; }
+  .sesion-cabeza, .lluvias-fotos { grid-template-columns: minmax(0, 1fr); }
+  .sesion-cabeza > *, .lluvias-fotos > * { grid-column: 1 !important; }
+  .sesion-foto { margin-top: 20px; }
+  .lluvias-fotos figure:first-child { width: 70%; }
+  .legal { grid-template-columns: minmax(0, 1fr); }
+  .legal-cabeza, .legal-cuerpo { grid-column: 1; position: static; }
+  .tabla-creditos { min-width: 0; }
+  .tabla-creditos, .tabla-creditos tbody, .tabla-creditos tr { display: block; }
+  .tabla-creditos thead { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .tabla-creditos tr { display: grid; gap: 2px; padding: 12px; }
+  .tabla-creditos th, .tabla-creditos td { padding: 0 !important; }
+  /* Cada dato con su nombre delante / Each value with its name before it */
+  .tabla-lluvias td::before, .tabla-creditos td::before { content: attr(data-etiqueta) ": "; color: var(--muted); }
+}
+
+/* ========== Pantallas anchas: las cuatro habitaciones en una fila ==========
+   ========== Wide screens: the four rooms in one row ========== */
+@media (min-width: 1600px) {
+  .hab-rejilla { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ========== Tableta ==========
+   ========== Tablet ========== */
+@media (max-width: 1100px) {
+  /* Menú plegable con JavaScript; sin él, la lista se queda visible / Collapsible menu with JS; without it, the list stays visible */
+  .cabecera { flex-wrap: wrap; gap: 8px 24px; }
+  html:not(.js) .menu { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .js .menu-boton { display: inline-flex; align-items: center; }
+  .js .menu { display: none; }
+  .js .menu.abierto {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 24px;
+    position: fixed; inset: 0; z-index: 15; margin: 0;
+    background: var(--bg); padding: 104px var(--margen) 32px; overflow-y: auto;
+    font-size: var(--step-lead);
+  }
+  .js .menu.abierto ul { flex-direction: column; gap: 4px; }
+  .js .menu-boton, .js .marca { position: relative; z-index: 25; }
+  .heroe-contenido { grid-template-columns: minmax(0, 1fr); }
+  .esta-noche { max-width: 460px; }
+  .cielo-texto, .cielo-fotos { grid-column: 1 / 13; }
+  .cielo-fotos { margin-top: 40px; min-height: 480px; }
+  .noches-intro { grid-column: 1 / 13; }
+  .noches-video { grid-column: 1 / 9; margin-top: 32px; }
+  .precios-lado { grid-column: 1 / 5; }
+  .carta { grid-column: 6 / 13; columns: 1; }
+  .lunas-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pie-columnas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ========== Móvil: su propia composición ==========
+   ========== Phone: its own composition ========== */
+@media (max-width: 720px) {
+  .cielo, .habitaciones, .noches, .eleccion, .precios,
+  .seccion-cabeza, .noches-cabeza { grid-template-columns: minmax(0, 1fr); }
+  .cielo > *, .habitaciones > *, .noches > *, .eleccion > *, .precios > *,
+  .seccion-cabeza > *, .noches-cabeza > * { grid-column: 1 !important; }
+  :root { --entre-secciones: 72px; }
+
+  /* Héroe: el texto ocupa el ancho y el panel va debajo / Hero: text full width, panel below */
+  .heroe { min-height: 0; padding-bottom: 56px; }
+  .heroe-contenido { padding-top: 140px; gap: 28px; }
+  .heroe-sub { margin-top: 18px; }
+  .heroe-credito { top: auto; bottom: 8px; right: var(--margen); }
+  .heroe-contenido { padding-top: 120px; }
+  .esta-noche { grid-template-columns: 72px minmax(0, 1fr); padding: 18px; gap: 16px; margin-bottom: 16px; }
+  .esta-noche-luna { width: 72px; height: 72px; }
+
+  .estaciones { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .cielo-fotos { min-height: 0; grid-template-rows: 300px 200px; }
+  .seccion-cabeza { gap: 16px; margin-bottom: 28px; }
+  .hab-rejilla { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+
+  /* Programa en dos líneas / Programme on two lines */
+  .programa-titulo { margin-top: 40px; }
+  .programa, .programa tbody { display: block; }
+  .programa tr { display: grid; grid-template-columns: auto auto 1fr; column-gap: 10px; margin-top: 14px; }
+  .programa td { width: auto !important; }
+  .programa td:first-child { grid-column: 1 / -1; font-size: 20px; line-height: 1.3; }
+  .programa td:not(:first-child) { font-size: var(--step-small); color: var(--muted); line-height: 1.6; }
+  .programa-dia { display: block !important; }
+  .programa-dia th { display: block; padding: 32px 0 4px; font-size: 20px; }
+  .noches-video { margin-top: 28px; }
+
+  /* Calculador / Calculator */
+  .eleccion-luna { width: 72%; margin-bottom: 28px; }
+  .calc-pasos { width: 100%; }
+  .paso { flex: 1; }
+  .calc-fecha, .calc-fecha input { width: 100%; }
+  .lunas-lista { grid-template-columns: minmax(0, 1fr); }
+
+  /* Precios / Prices */
+  .precios-foto { width: 60%; }
+  .carta { margin-top: 36px; }
+  .carta-fila { font-size: 17px; }
+
+  /* Contacto: foto arriba y la tarjeta pisa su borde / Contact: photo on top, card overlaps its edge */
+  .contacto { display: block; min-height: 0; padding: 0; overflow: visible; }
+  .contacto-foto { position: relative; height: 56svh; overflow: hidden; z-index: 0; }
+  .contacto-foto figcaption { left: var(--margen); bottom: 96px; }
+  .tarjeta { position: relative; width: auto; margin: -80px 16px 0; }
+  .boton--tarjeta { min-height: 56px; }
+
+  .pie-columnas { font-size: var(--step-small); }
+}
