@@ -65,8 +65,9 @@
       });
       rotular();
       v.insertAdjacentElement('afterend', boton);
-      if (sinMovimiento) { v.removeAttribute('autoplay'); v.pause(); return; }
-      if (!('IntersectionObserver' in window)) return;
+      if (sinMovimiento) { v.pause(); return; }
+      // Sin IntersectionObserver, arranca ya: el botón está puesto. / Without IntersectionObserver, start now: the button is in place.
+      if (!('IntersectionObserver' in window)) { var r = v.play(); if (r && r.catch) r.catch(function () {}); return; }
       new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           if (e.isIntersecting && !pausado) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
@@ -81,7 +82,11 @@
   function prepararMenu() {
     var boton = document.querySelector('.menu-boton');
     var menu = document.getElementById('menu-principal');
-    if (!boton || !menu) return;
+    var cabecera = document.querySelector('.cabecera');
+    if (!boton || !menu || !cabecera) return;
+    cabecera.classList.add('menu-plegable');
+    // Lo que queda fuera de la cabecera se vuelve inerte con el menú abierto. / Everything outside the header goes inert while open.
+    var fuera = Array.prototype.filter.call(document.body.children, function (n) { return n !== cabecera && n.tagName !== 'SCRIPT'; });
 
     // Abre o cierra el menú y deja el foco donde toca. / Opens or closes the menu and places focus.
     function poner(abierto, devolverFoco) {
@@ -89,6 +94,7 @@
       boton.setAttribute('aria-expanded', abierto ? 'true' : 'false');
       boton.textContent = abierto ? 'Cerrar' : 'Menú';
       document.body.classList.toggle('menu-abierto', abierto);
+      fuera.forEach(function (n) { if (abierto) n.setAttribute('inert', ''); else n.removeAttribute('inert'); });
       if (abierto) { var primero = menu.querySelector('a'); if (primero) primero.focus(); }
       else if (devolverFoco) boton.focus();
     }
@@ -130,12 +136,13 @@
     campos.llegada.min = hoy;
 
     // Habitación que llega en la dirección (?habitacion=Orion). / Room passed in the URL (?habitacion=Orion).
-    var llegada = new URLSearchParams(location.search).get('llegada');
-    if (llegada && /^\d{4}-\d{2}-\d{2}$/.test(llegada) && llegada >= hoy) campos.llegada.value = llegada;
-    var pedida = new URLSearchParams(location.search).get('habitacion');
-    if (pedida) {
-      Array.prototype.forEach.call(campos.habitacion.options, function (o) { if (o.value === pedida) campos.habitacion.value = pedida; });
-    }
+    var parametros = {};
+    try { parametros = new URLSearchParams(location.search); } catch (e) { parametros = new URLSearchParams(''); }
+    var llegada = parametros.get('llegada');
+    if (llegada && /^\d{4}-\d{2}-\d{2}$/.test(llegada) && !isNaN(aFecha(llegada)) && llegada >= hoy) campos.llegada.value = llegada;
+    var HABITACIONES = { 'Me da igual': 1, 'Orion': 1, 'Aldebaran': 1, 'Vega': 1, 'Capella': 1, 'Solo observacion': 1 };
+    var pedida = parametros.get('habitacion');
+    if (pedida && Object.hasOwn(HABITACIONES, pedida)) campos.habitacion.value = pedida;
 
     // Comprobaciones de cada campo. / Checks for each field.
     var reglas = {
@@ -179,21 +186,29 @@
       resultado.hidden = false;
       resultado.focus();
     });
+    // El botón sale desactivado en el HTML: sin este script, no se puede enviar. / Disabled in HTML: without this script, nothing submits.
+    var enviar = form.querySelector('[type=submit]');
+    if (enviar) enviar.disabled = false;
   }
 
   /* ========== 5. La Luna ==========
      ========== 5. The Moon ========== */
 
   var ZONA = 'Europe/Madrid';
-  var fmtIso = new Intl.DateTimeFormat('en-CA', { timeZone: ZONA, year: 'numeric', month: '2-digit', day: '2-digit' });
-  var fmtHoraNum = new Intl.DateTimeFormat('en-GB', { timeZone: ZONA, hour: '2-digit', hour12: false });
+  // Partes locales con formatToParts: no dependen del formato regional. / Local parts via formatToParts: locale-independent.
+  var fmtPartes = new Intl.DateTimeFormat('en-GB', { timeZone: ZONA, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23' });
+  function partes(d) {
+    var r = {};
+    fmtPartes.formatToParts(d).forEach(function (x) { if (x.type !== 'literal') r[x.type] = x.value; });
+    return r;
+  }
   var fmtLarga = new Intl.DateTimeFormat('es-ES', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' });
   var fmtCorta = new Intl.DateTimeFormat('es-ES', { timeZone: 'UTC', day: 'numeric', month: 'long' });
   var fmtDia = new Intl.DateTimeFormat('es-ES', { timeZone: 'UTC', weekday: 'long' });
   var fmtMes = new Intl.DateTimeFormat('es-ES', { timeZone: 'UTC', month: 'long', year: 'numeric' });
 
   // Fecha local «AAAA-MM-DD» de un instante. / Local "YYYY-MM-DD" date of an instant.
-  function isoLocal(d) { return fmtIso.format(d); }
+  function isoLocal(d) { var q = partes(d); return q.year + '-' + q.month + '-' + q.day; }
   // Suma días a una fecha ISO sin líos de horario. / Adds days to an ISO date with no DST trouble.
   function sumarDias(iso, n) {
     var p = iso.split('-');
@@ -204,7 +219,7 @@
   // La noche de un instante de luna nueva: antes del mediodía cuenta la anterior. / New-moon night: before noon counts the previous one.
   function nocheDe(instante) {
     var iso = isoLocal(instante);
-    return (+fmtHoraNum.format(instante) < 12) ? sumarDias(iso, -1) : iso;
+    return (+partes(instante).hour < 12) ? sumarDias(iso, -1) : iso;
   }
   // «4 h 20 min» a partir de minutos. / "4 h 20 min" from minutes.
   function duracion(min) {
@@ -312,7 +327,7 @@
       document.getElementById('heroe-fase').textContent = C.nombreFase(nh.luna.avance) + ', ' + Math.round(nh.luna.iluminada * 100) + ' % iluminada';
       document.getElementById('heroe-oscuro').textContent = nh.oscuroMin > 0
         ? 'Cielo oscuro de ' + C.hora(nh.primeroOscuro) + ' a ' + C.hora(nh.ultimoOscuro) + ' (' + duracion(nh.oscuroMin) + ')'
-        : 'Noche de Luna: buena para sus cráteres, no para la Vía Láctea.';
+        : 'La Luna está sobre el horizonte toda la noche: no hay horas de cielo oscuro.';
       if (nuevas.length) document.getElementById('heroe-nueva').textContent = 'Próxima luna nueva: noche del ' + fmtCorta.format(aFecha(nuevas[0].iso)) + ', ' + nuevas[0].horas + ' h de cielo oscuro.';
     }
 

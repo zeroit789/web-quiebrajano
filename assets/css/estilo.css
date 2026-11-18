@@ -599,7 +599,6 @@ html:not(.js) .calendario-luna { display: none; }
 .llegada { grid-column: 9 / 13; display: grid; gap: 16px; }
 .llegada h3 { margin-top: 8px; }
 .aviso-demo { background: var(--surface); padding: 16px 20px; max-width: 60ch; }
-.js .sin-js { display: none; }
 .formulario { display: grid; gap: 20px; }
 .campo { display: grid; gap: 6px; align-content: start; }
 .campo-fila { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--hueco); }
@@ -617,6 +616,7 @@ html:not(.js) .calendario-luna { display: none; }
 .campo-pista { color: var(--muted); font-size: var(--step-small); }
 .campo-error { color: #f3b39e; font-size: var(--step-small); font-weight: 500; }
 .formulario .boton { justify-self: start; cursor: pointer; }
+.formulario .boton:disabled { opacity: 0.6; cursor: not-allowed; }
 .form-resultado { background: var(--surface); padding: 24px; display: grid; gap: 12px; }
 .form-resultado[hidden] { display: none; }
 .form-resultado-titulo { font-size: var(--step-lead); }
@@ -716,17 +716,17 @@ html:not(.js) .calendario-luna { display: none; }
 @media (max-width: 1100px) {
   /* Menú plegable con JavaScript; sin él, la lista se queda visible / Collapsible menu with JS; without it, the list stays visible */
   .cabecera { flex-wrap: wrap; gap: 8px 24px; }
-  html:not(.js) .menu { margin-left: 0; width: 100%; flex-wrap: wrap; }
-  .js .menu-boton { display: inline-flex; align-items: center; }
-  .js .menu { display: none; }
-  .js .menu.abierto {
+  .cabecera:not(.menu-plegable) .menu { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .menu-plegable .menu-boton { display: inline-flex; align-items: center; }
+  .menu-plegable .menu { display: none; }
+  .menu-plegable .menu.abierto {
     display: flex; flex-direction: column; align-items: flex-start; gap: 24px;
     position: fixed; inset: 0; z-index: 15; margin: 0;
     background: var(--bg); padding: 104px var(--margen) 32px; overflow-y: auto;
     font-size: var(--step-lead);
   }
-  .js .menu.abierto ul { flex-direction: column; gap: 4px; }
-  .js .menu-boton, .js .marca { position: relative; z-index: 25; }
+  .menu-plegable .menu.abierto ul { flex-direction: column; gap: 4px; }
+  .menu-plegable .menu-boton, .menu-plegable .marca { position: relative; z-index: 25; }
   .heroe-contenido { grid-template-columns: minmax(0, 1fr); }
   .esta-noche { max-width: 460px; }
   .cielo-texto, .cielo-fotos { grid-column: 1 / 13; }

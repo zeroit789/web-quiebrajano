@@ -154,72 +154,124 @@
     };
   }
 
+  /* ---- Hora local y desfase de la zona del refugio ----
+     ---- Local time and offset of the refuge's time zone ---- */
+
+  // Partes de fecha y hora locales con formatToParts (no depende del formato regional).
+  // Local date and time parts with formatToParts (independent of the locale's format).
+  var partesLocales = (typeof Intl !== 'undefined') ? new Intl.DateTimeFormat('en-GB', {
+    timeZone: LUGAR.zona, year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23'
+  }) : null;
+  function partes(t) {
+    var r = {};
+    if (!partesLocales) {
+      var d = new Date(t);
+      return { year: d.getUTCFullYear(), month: d.getUTCMonth() + 1, day: d.getUTCDate(), hour: d.getUTCHours(), minute: d.getUTCMinutes(), second: d.getUTCSeconds() };
+    }
+    partesLocales.formatToParts(new Date(t)).forEach(function (x) { if (x.type !== 'literal') r[x.type] = +x.value; });
+    return r;
+  }
+  // Minutos que la hora local va por delante de UTC en un instante. / Minutes local time is ahead of UTC at an instant.
+  function desfase(t) {
+    var q = partes(t);
+    return Math.round((Date.UTC(q.year, q.month - 1, q.day, q.hour, q.minute, q.second) - Math.floor(t / 1000) * 1000) / 60000);
+  }
+  // Instante UTC de una hora local de un día (corrige el cambio de hora). / UTC instant of a local time on a day (handles DST).
+  function instanteLocal(a, m, d, h) {
+    var aprox = Date.UTC(a, m - 1, d, h);
+    var t = aprox - desfase(aprox) * 60000;
+    return aprox - desfase(t) * 60000;
+  }
+
   /* ---- La noche de un día concreto ----
      ---- The night of a given day ---- */
 
-  // Recorre la noche de la fecha «AAAA-MM-DD» (de su mediodía al del día siguiente) en pasos de 5 min.
-  // Walks the night of the date "YYYY-MM-DD" (from its noon to the next noon) in 5-minute steps.
+  // Recorre la noche de la fecha «AAAA-MM-DD» (de su mediodía local al del día siguiente) en pasos de 5 min
+  // e interpola cada cruce del Sol y de la Luna dentro del paso, para que los tramos empiecen y acaben en su minuto.
+  // Walks the night of "YYYY-MM-DD" (local noon to next local noon) in 5-minute steps and interpolates every
+  // Sun and Moon crossing inside a step, so spans start and end at their real minute.
+  var UMBRAL_PUESTA = -0.833;   // borde superior con refracción / upper limb with refraction
+  var UMBRAL_NOCHE = -18;       // fin del crepúsculo astronómico / end of astronomical twilight
   function noche(iso, lugar) {
     lugar = lugar || LUGAR;
-    var p = iso.split('-');
-    // 11:00 UTC ≈ mediodía en Madrid en invierno y 13:00 en verano: siempre antes de la puesta de Sol.
-    // 11:00 UTC ≈ noon in Madrid in winter and 13:00 in summer: always before sunset.
-    var inicio = Date.UTC(+p[0], +p[1] - 1, +p[2], 11, 0, 0);
+    var p = iso.split('-').map(Number);
+    var inicio = instanteLocal(p[0], p[1], p[2], 12);
+    var fin = instanteLocal(p[0], p[1], p[2] + 1, 12);
     var paso = 5 * 60000;
     var muestras = [];
-    for (var t = inicio; t <= inicio + 86400000; t += paso) {
-      var e = estado(new Date(t), lugar);
-      muestras.push({ t: t, sol: e.altSol, luna: e.altLuna });
+    for (var t = inicio; t < fin + paso; t += paso) {
+      var e = estado(new Date(Math.min(t, fin)), lugar);
+      muestras.push({ t: Math.min(t, fin), sol: e.altSol, luna: e.altLuna });
+      if (t >= fin) break;
     }
 
-    // Primer cruce de un umbral en una dirección, interpolado. / First threshold crossing in one direction, interpolated.
-    function cruce(campo, umbral, bajando, desde) {
-      for (var i = Math.max(1, desde || 1); i < muestras.length; i++) {
-        var a = muestras[i - 1][campo], b = muestras[i][campo];
-        if (bajando ? (a >= umbral && b < umbral) : (a < umbral && b >= umbral)) {
-          var f = (umbral - a) / (b - a);
-          return { t: muestras[i - 1].t + f * paso, i: i };
-        }
-      }
-      return null;
+    // Instante en que una magnitud cruza un umbral entre dos muestras (interpolación lineal).
+    // Instant at which a quantity crosses a threshold between two samples (linear interpolation).
+    function corte(a, b, campo, umbral) {
+      var va = a[campo], vb = b[campo];
+      if ((va - umbral) * (vb - umbral) > 0 || va === vb) return null;
+      return a.t + (umbral - va) / (vb - va) * (b.t - a.t);
+    }
+    // Valor interpolado en un instante dentro de un paso. / Value interpolated at an instant inside a step.
+    function valor(a, b, campo, t) { return a[campo] + (b[campo] - a[campo]) * (t - a.t) / (b.t - a.t); }
+
+    // Puesta y salida del Sol (cruces en el sentido correcto). / Sunset and sunrise (crossings in the right direction).
+    var puesta = null, salida = null, finCrepusculo = null, inicioAlba = null;
+    for (var k = 1; k < muestras.length; k++) {
+      var a = muestras[k - 1], b = muestras[k];
+      if (puesta === null && a.sol >= UMBRAL_PUESTA && b.sol < UMBRAL_PUESTA) puesta = corte(a, b, 'sol', UMBRAL_PUESTA);
+      if (finCrepusculo === null && a.sol >= UMBRAL_NOCHE && b.sol < UMBRAL_NOCHE) finCrepusculo = corte(a, b, 'sol', UMBRAL_NOCHE);
+      if (finCrepusculo !== null && inicioAlba === null && a.sol < UMBRAL_NOCHE && b.sol >= UMBRAL_NOCHE) inicioAlba = corte(a, b, 'sol', UMBRAL_NOCHE);
+      if (puesta !== null && salida === null && a.sol < UMBRAL_PUESTA && b.sol >= UMBRAL_PUESTA) salida = corte(a, b, 'sol', UMBRAL_PUESTA);
     }
 
-    var puesta = cruce('sol', -0.833, true);
-    var finCrepusculo = cruce('sol', -18, true);
-    var inicioAlba = finCrepusculo ? cruce('sol', -18, false, finCrepusculo.i) : null;
-    var salida = puesta ? cruce('sol', -0.833, false, puesta.i) : null;
-
-    // Tramos de la noche: crepúsculo, Luna arriba o cielo oscuro. / Night spans: twilight, Moon up or dark sky.
+    // Tramos exactos entre la puesta y la salida: se parte cada paso por los cruces que contiene.
+    // Exact spans between sunset and sunrise: each step is split at the crossings inside it.
     var tramos = [];
-    var oscuroMin = 0;
+    var oscuroMs = 0;
     var primeroOscuro = null, ultimoOscuro = null;
-    if (puesta && salida) {
-      for (var j = puesta.i; j <= salida.i && j < muestras.length; j++) {
-        var mu = muestras[j];
-        var tipo = mu.sol >= -18 ? 'crepusculo' : (mu.luna > -0.833 ? 'luna' : 'oscuro');
-        if (tipo === 'oscuro') {
-          oscuroMin += 5;
-          if (primeroOscuro === null) primeroOscuro = mu.t;
-          ultimoOscuro = mu.t;
+    if (puesta !== null && salida !== null) {
+      for (var m = 1; m < muestras.length; m++) {
+        var x = muestras[m - 1], y = muestras[m];
+        var desde = Math.max(x.t, puesta), hasta = Math.min(y.t, salida);
+        if (hasta <= desde) continue;
+        var cortes = [desde, hasta];
+        [corte(x, y, 'sol', UMBRAL_NOCHE), corte(x, y, 'luna', UMBRAL_PUESTA)].forEach(function (c) {
+          if (c !== null && c > desde && c < hasta) cortes.push(c);
+        });
+        cortes.sort(function (u, v) { return u - v; });
+        for (var q = 1; q < cortes.length; q++) {
+          var t0 = cortes[q - 1], t1 = cortes[q];
+          if (t1 <= t0) continue;
+          var medio = (t0 + t1) / 2;
+          var sol = valor(x, y, 'sol', medio), lunaAlt = valor(x, y, 'luna', medio);
+          var tipo = sol >= UMBRAL_NOCHE ? 'crepusculo' : (lunaAlt > UMBRAL_PUESTA ? 'luna' : 'oscuro');
+          if (tipo === 'oscuro') {
+            oscuroMs += t1 - t0;
+            if (primeroOscuro === null) primeroOscuro = t0;
+            ultimoOscuro = t1;
+          }
+          var ult = tramos[tramos.length - 1];
+          if (ult && ult.tipo === tipo) ult.fin = t1;
+          else tramos.push({ tipo: tipo, inicio: t0, fin: t1 });
         }
-        var ult = tramos[tramos.length - 1];
-        if (ult && ult.tipo === tipo) ult.fin = mu.t + paso;
-        else tramos.push({ tipo: tipo, inicio: mu.t, fin: mu.t + paso });
       }
     }
 
-    // Estado de la Luna a medianoche local (≈ 23:00 UTC). / Moon state at local midnight (≈ 23:00 UTC).
-    var medianoche = estado(new Date(inicio + 12 * 3600000), lugar);
+    // Estado de la Luna a la medianoche local de verdad (00:00 del día siguiente en Madrid).
+    // Moon state at the true local midnight (00:00 of the next day in Madrid).
+    var medianoche = estado(new Date(instanteLocal(p[0], p[1], p[2] + 1, 0)), lugar);
 
     return {
-      puesta: puesta && puesta.t,
-      finCrepusculo: finCrepusculo && finCrepusculo.t,
-      inicioAlba: inicioAlba && inicioAlba.t,
-      salida: salida && salida.t,
+      puesta: puesta,
+      finCrepusculo: finCrepusculo,
+      inicioAlba: inicioAlba,
+      salida: salida,
       tramos: tramos,
-      oscuroMin: oscuroMin,
+      oscuroMin: Math.round(oscuroMs / 60000),
       primeroOscuro: primeroOscuro,
-      ultimoOscuro: ultimoOscuro !== null ? ultimoOscuro + paso : null,
+      ultimoOscuro: ultimoOscuro,
       luna: medianoche
     };
   }
@@ -265,23 +317,27 @@
     return 'Luna menguante';
   }
 
-  // Veredicto para observar según las horas de cielo oscuro y la Luna.
-  // Observing verdict from the hours of dark sky and the Moon.
+  // Veredicto ceñido a lo que se calcula: las horas sin Sol (por debajo de −18°) ni Luna sobre el horizonte.
+  // Verdict limited to what is computed: hours with no Sun (below −18°) and no Moon above the horizon.
   function veredicto(n) {
     var h = n.oscuroMin / 60;
-    if (h >= 6) return { nivel: 'excelente', texto: 'Noche excelente: cielo oscuro casi entero, la Vía Láctea y las galaxias en su mejor momento.' };
-    if (h >= 3) return { nivel: 'buena', texto: 'Buena noche: varias horas sin Luna para el telescopio y otras con ella para mirar sus cráteres.' };
-    if (h >= 1) return { nivel: 'corta', texto: 'Ventana corta de cielo oscuro. Sirve para una sesión, no para la Vía Láctea entera.' };
-    return { nivel: 'luna', texto: 'Noche de Luna: buena para sus cráteres y para los planetas, mala para el cielo profundo.' };
+    if (h >= 6) return { nivel: 'larga', texto: 'Noche larga de cielo oscuro: más de seis horas sin Sol ni Luna sobre el horizonte.' };
+    if (h >= 3) return { nivel: 'media', texto: 'Entre tres y seis horas sin Sol ni Luna; el resto de la noche, la Luna está arriba.' };
+    if (h >= 1) return { nivel: 'corta', texto: 'Ventana corta: entre una y tres horas sin Sol ni Luna sobre el horizonte.' };
+    return { nivel: 'luna', texto: 'La Luna está sobre el horizonte casi toda la noche: menos de una hora de cielo oscuro.' };
   }
 
-  // Formato de hora local HH:MM en la zona del refugio. / Local HH:MM time in the refuge's zone.
-  var formatoHora = (typeof Intl !== 'undefined') ? new Intl.DateTimeFormat('es-ES', {
-    hour: '2-digit', minute: '2-digit', hour12: false, timeZone: LUGAR.zona
-  }) : null;
+  // Hora local HH:MM en la zona del refugio, con formatToParts. / Local HH:MM time in the refuge's zone, via formatToParts.
+  function dos(n) { return (n < 10 ? '0' : '') + n; }
   function hora(t) {
     if (t === null || t === undefined) return '—';
-    return formatoHora ? formatoHora.format(new Date(t)) : new Date(t).toISOString().slice(11, 16);
+    var q = partes(t);
+    return dos(q.hour) + ':' + dos(q.minute);
+  }
+  // Fecha local «AAAA-MM-DD» de un instante. / Local "YYYY-MM-DD" date of an instant.
+  function fechaLocal(t) {
+    var q = partes(t);
+    return q.year + '-' + dos(q.month) + '-' + dos(q.day);
   }
 
   var Cielo = {
@@ -291,7 +347,9 @@
     lunasNuevas: lunasNuevas,
     nombreFase: nombreFase,
     veredicto: veredicto,
-    hora: hora
+    hora: hora,
+    fechaLocal: fechaLocal,
+    horaLocal: function (t) { return partes(t).hour; }
   };
 
   // Exporta para el navegador (window.Cielo) y para Node (pruebas).
